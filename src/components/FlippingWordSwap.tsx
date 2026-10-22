@@ -201,7 +201,7 @@ export function FlippingWordSwap({
       ref={containerRef}
       type="button"
       className={cn(
-        "relative flex flex-col items-start cursor-pointer select-none border-0 bg-transparent p-0 font-[inherit] leading-[inherit] tracking-[inherit] text-[inherit] text-left",
+        "relative flex flex-col items-center md:items-start cursor-pointer select-none border-0 bg-transparent p-0 font-[inherit] leading-[inherit] tracking-[inherit] text-[inherit] text-center md:text-left mx-auto md:mx-0",
         "rounded-[0.08em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current/30 focus-visible:ring-offset-2",
         className,
       )}
@@ -235,14 +235,14 @@ export function FlippingWordSwap({
           key={`line-${lineIdx}`}
           data-flip-line={lineIdx}
           className={cn(
-            "relative inline-grid overflow-hidden [perspective:800px] w-full text-left",
+            "relative inline-grid overflow-hidden [perspective:800px] w-full text-center md:text-left",
             line.className,
           )}
           style={line.style}
         >
           <span
             className={cn(
-              "col-start-1 row-start-1 inline-flex items-baseline justify-start whitespace-pre",
+              "col-start-1 row-start-1 inline-flex items-baseline justify-center md:justify-start whitespace-pre",
               line.fromClassName,
             )}
             aria-hidden="true"
@@ -252,7 +252,7 @@ export function FlippingWordSwap({
           </span>
           <span
             className={cn(
-              "col-start-1 row-start-1 inline-flex items-baseline justify-start whitespace-pre",
+              "col-start-1 row-start-1 inline-flex items-baseline justify-center md:justify-start whitespace-pre",
               line.toClassName || toClassName,
             )}
             aria-hidden="true"
