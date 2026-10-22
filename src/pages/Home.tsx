@@ -20,8 +20,8 @@ export const Home: React.FC = () => {
         description="Authentic Gujarati farsan, namkeen, wafers, and festive sweets in Mira Road, Mumbai. Fresh every day, made in-house with traditional recipes. Shop No 15, Shantipark."
       />
 
-      {/* Above-the-fold Hero (Combined with Header fits inside exactly 100dvh) */}
-      <div className="flex flex-col h-[calc(100dvh-var(--header-height))] min-h-[calc(100dvh-var(--header-height))] max-h-[calc(100dvh-var(--header-height))] overflow-hidden">
+      {/* Above-the-fold Hero (Combined with Header fits inside viewport) */}
+      <div className="flex flex-col h-[calc(100dvh-66px)] sm:h-[calc(100dvh-var(--header-height))] min-h-[520px] sm:min-h-[calc(100dvh-var(--header-height))] max-h-[100dvh] overflow-hidden">
         <Hero />
       </div>
 

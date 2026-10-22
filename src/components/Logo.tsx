@@ -18,8 +18,8 @@ export const Logo: React.FC<LogoProps> = ({ compact = false, className = '' }) =
         alt="Ashapura Farsan, Namkeen & Wafers"
         className={`${
           compact
-            ? 'w-[130px] sm:w-[145px]'
-            : 'w-[140px] sm:w-[155px] md:w-[185px] lg:w-[195px]'
+            ? 'w-[118px] xs:w-[128px] sm:w-[145px]'
+            : 'w-[126px] xs:w-[138px] sm:w-[155px] md:w-[185px] lg:w-[195px]'
         } h-auto max-h-[66px] object-contain flex-shrink-0`}
         width={800}
         height={307}

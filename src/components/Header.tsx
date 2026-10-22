@@ -50,8 +50,8 @@ export const Header: React.FC = () => {
       <div
         className={`transition-all duration-300 ease-out flex items-center justify-between relative pointer-events-auto ${
           isScrolled
-            ? 'max-w-[1240px] mx-auto h-[60px] sm:h-[66px] px-4 sm:px-6 bg-[rgba(255,251,245,0.97)] backdrop-blur-md rounded-2xl sm:rounded-full border border-[#E6D0B4] shadow-[0_12px_36px_rgba(58,27,16,0.14)]'
-            : 'container-custom w-full h-[78px] bg-transparent border-none rounded-none shadow-none'
+            ? 'max-w-[1240px] mx-auto h-[56px] sm:h-[66px] px-3.5 sm:px-6 bg-[rgba(255,251,245,0.97)] backdrop-blur-md rounded-2xl sm:rounded-full border border-[#E6D0B4] shadow-[0_12px_36px_rgba(58,27,16,0.14)]'
+            : 'container-custom w-full h-[66px] sm:h-[78px] bg-transparent border-none rounded-none shadow-none'
         }`}
       >
         {/* Left: Logo */}
@@ -98,34 +98,34 @@ export const Header: React.FC = () => {
         </div>
 
         {/* Right Action Icons */}
-        <div className="flex items-center gap-2.5 sm:gap-3.5">
+        <div className="flex items-center gap-1.5 xs:gap-2 sm:gap-3.5">
           {/* Mobile Search Toggle */}
           <button
             type="button"
             onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
-            className="xl:hidden p-2 text-brown-900 hover:text-orange-600 transition-colors rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600"
+            className="xl:hidden p-1.5 xs:p-2 min-w-[38px] min-h-[38px] flex items-center justify-center text-brown-900 hover:text-orange-600 transition-colors rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600"
             aria-label="Toggle search bar"
           >
-            <Search size={21} strokeWidth={1.5} />
+            <Search size={20} strokeWidth={1.5} />
           </button>
 
           {/* User Icon -> /contact */}
           <Link
             to="/contact"
-            className="p-2 text-brown-900 hover:text-orange-600 transition-colors rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600"
+            className="p-1.5 xs:p-2 min-w-[38px] min-h-[38px] flex items-center justify-center text-brown-900 hover:text-orange-600 transition-colors rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600"
             aria-label="Customer support & store contact"
           >
-            <User size={21} strokeWidth={1.5} />
+            <User size={20} strokeWidth={1.5} />
           </Link>
 
           {/* Cart Icon with Red Badge */}
           <button
             type="button"
             onClick={openDrawer}
-            className="relative p-2 text-brown-900 hover:text-orange-600 transition-colors rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600"
+            className="relative p-1.5 xs:p-2 min-w-[38px] min-h-[38px] flex items-center justify-center text-brown-900 hover:text-orange-600 transition-colors rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600"
             aria-label={`Open shopping cart with ${totalItems} items`}
           >
-            <ShoppingBag size={21} strokeWidth={1.5} />
+            <ShoppingBag size={20} strokeWidth={1.5} />
             <AnimatePresence>
               {totalItems >= 0 && (
                 <motion.span
@@ -145,10 +145,10 @@ export const Header: React.FC = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-brown-900 hover:text-orange-600 transition-colors rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600"
+            className="lg:hidden p-1.5 xs:p-2 min-w-[38px] min-h-[38px] flex items-center justify-center text-brown-900 hover:text-orange-600 transition-colors rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600"
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           >
-            {mobileMenuOpen ? <X size={23} strokeWidth={1.5} /> : <Menu size={23} strokeWidth={1.5} />}
+            {mobileMenuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
           </button>
         </div>
 
