@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production build
+dist/
+dist-ssr/
+
+# Environment and local files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+# Editor & System
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# Agent & Brain directories
+.agent/
+.gemini/
+scratch/
+
+# Root test/comparison screenshots
+before_fix.png
+after_fix_*.png
+new_result_*.png
+navbar_*.png
+without_benefits_strip.png
+hero_without_line.png
+header_logo_full.png
+logo_preview.png

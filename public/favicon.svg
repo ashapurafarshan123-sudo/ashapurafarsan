@@ -1,0 +1,11 @@
+<svg width="32" height="32" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="favBadgeGrad" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#F5A623" />
+      <stop offset="100%" stop-color="#E8891A" />
+    </radialGradient>
+  </defs>
+  <circle cx="31" cy="31" r="30" fill="url(#favBadgeGrad)" stroke="#E07C0A" stroke-width="1.5" />
+  <circle cx="31" cy="31" r="25" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="1" fill="none" />
+  <text x="31" y="38" text-anchor="middle" font-family="'Playfair Display', serif" font-weight="700" font-size="24" fill="#3A1B10">A</text>
+</svg>
