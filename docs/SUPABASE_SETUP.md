@@ -78,12 +78,13 @@ The Ashapura Farsan admin dashboard is protected by Row Level Security and trust
 
 1. In Supabase Dashboard, go to **Authentication** > **URL Configuration**.
 2. Set **Site URL:**
-   - Production: `https://ashapurafarsan12.netlify.app`
+   - Production: `https://ashapurafarsan1.netlify.app`
    - Local: `http://localhost:5173`
 3. Under **Redirect URLs**, add:
-   - `https://ashapurafarsan12.netlify.app/login`
-   - `https://ashapurafarsan12.netlify.app/reset-password`
-   - `https://ashapurafarsan12.netlify.app/account`
+   - `https://ashapurafarsan1.netlify.app/login`
+   - `https://ashapurafarsan1.netlify.app/reset-password`
+   - `https://ashapurafarsan1.netlify.app/account`
+   - `https://ashapurafarsan1.netlify.app/**`
    - `http://localhost:5173/login`
    - `http://localhost:5173/reset-password`
    - `http://localhost:5173/account`
@@ -93,12 +94,12 @@ The Ashapura Farsan admin dashboard is protected by Row Level Security and trust
 
 ## 6. Configure Production Environment Variables in Netlify
 
-1. In your Netlify team dashboard, go to your site: **ashapurafarsan12**.
+1. In your Netlify team dashboard, go to your site: **ashapurafarsan1**.
 2. Navigate to **Site configuration** > **Environment variables**.
 3. Add the following variables:
    - `VITE_SUPABASE_URL`: `https://<your-project-id>.supabase.co`
    - `VITE_SUPABASE_ANON_KEY`: `<your-anon-public-key>`
-   - `VITE_SITE_URL`: `https://ashapurafarsan12.netlify.app`
+   - `VITE_SITE_URL`: `https://ashapurafarsan1.netlify.app`
 4. Trigger a new deployment (or push a commit to `main`). Netlify will build the production bundle with real Supabase persistence!
 
 ---

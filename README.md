@@ -2,7 +2,7 @@
 
 > Traditional Gujarati farsan, namkeen, wafers & snacks e-commerce application with customer authentication, persistent customer accounts, order management, and a protected administrative dashboard.
 
-- **Live Storefront:** [https://ashapurafarsan12.netlify.app/](https://ashapurafarsan12.netlify.app/)
+- **Live Storefront:** [https://ashapurafarsan1.netlify.app/](https://ashapurafarsan1.netlify.app/)
 - **Backend:** Supabase (PostgreSQL 15 + Supabase Auth + Row Level Security + Storage)
 - **Deployment:** Netlify (Continuous Deployment connected to GitHub)
 
