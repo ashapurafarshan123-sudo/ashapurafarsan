@@ -10,15 +10,14 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [selectedWeight, setSelectedWeight] = useState<ProductWeight>('250g');
-  const [isAdded, setIsAdded] = useState(false);
-  const { addToCart, formatPrice } = useCart();
+  const { items, addToCart, formatPrice } = useCart();
 
   const currentPrice = product.prices[selectedWeight];
+  const currentItemId = `${product.id}-${selectedWeight}`;
+  const isInCart = items.some((item) => item.id === currentItemId);
 
   const handleAdd = () => {
     addToCart(product, selectedWeight);
-    setIsAdded(true);
-    setTimeout(() => setIsAdded(false), 1200);
   };
 
   const weights: { key: ProductWeight; label: string }[] = [
@@ -97,13 +96,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             type="button"
             onClick={handleAdd}
             className={`h-[34px] px-3.5 rounded-full text-[12px] font-medium font-sans flex items-center gap-1.5 transition-all shadow-sm ${
-              isAdded
-                ? 'bg-green-700 text-white'
+              isInCart
+                ? 'bg-green-700 hover:bg-green-800 text-white active:translate-y-[1px]'
                 : 'bg-orange-600 hover:bg-orange-700 text-white active:translate-y-[1px]'
             }`}
-            aria-label={`Add ${product.name} (${selectedWeight}) to cart`}
+            aria-label={
+              isInCart
+                ? `${product.name} (${selectedWeight}) is in cart. Add another.`
+                : `Add ${product.name} (${selectedWeight}) to cart`
+            }
           >
-            {isAdded ? (
+            {isInCart ? (
               <>
                 <Check size={14} strokeWidth={2.5} />
                 <span>Added</span>
