@@ -7,7 +7,7 @@ import { FlippingWordSwap } from './FlippingWordSwap';
 
 export const Hero: React.FC = () => {
   return (
-    <section className="flex-1 min-h-0 relative overflow-hidden bg-[url('/images/hero-banner.jpg')] bg-cover bg-[position:63%_center] md:bg-center flex flex-col justify-center">
+    <section className="flex-1 min-h-0 relative overflow-hidden bg-[url('/images/hero-banner.webp')] bg-cover bg-[position:63%_center] md:bg-center flex flex-col justify-center">
       {/* Contrast overlay: strong at top for text readability, gentle feathered vignette on desktop */}
       <div
         className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/50 via-50% to-black/75 md:bg-gradient-to-r md:from-black/85 md:via-black/40 md:to-transparent pointer-events-none select-none z-0"

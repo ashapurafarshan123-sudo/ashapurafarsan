@@ -13,7 +13,7 @@ export const HeroProductsSection: React.FC = () => {
       bgColor: '#4A1521', // Royal Crimson Burgundy
       textColor: '#FFFFFF',
       price: '₹110 / 250g',
-      image: '/images/products/hero-kachori.png',
+      image: '/images/products/hero-kachori.webp',
       icon: <Flame size={20} className="text-[#F5C27A]" strokeWidth={2} />,
       action: (
         <Link
@@ -33,7 +33,7 @@ export const HeroProductsSection: React.FC = () => {
       bgColor: '#1E3F2B', // Forest Emerald Green
       textColor: '#FFFFFF',
       price: '₹120 / 250g',
-      image: '/images/products/hero-multigrain-chivda.png',
+      image: '/images/products/hero-multigrain-chivda.webp',
       icon: <Wheat size={20} className="text-[#96E0A8]" strokeWidth={2} />,
       action: (
         <Link
@@ -53,7 +53,7 @@ export const HeroProductsSection: React.FC = () => {
       bgColor: '#96591C', // Warm Spiced Mustard Amber
       textColor: '#FFFFFF',
       price: '₹95 / 250g',
-      image: '/images/products/hero-khatta-meetha.png',
+      image: '/images/products/hero-khatta-meetha.webp',
       icon: <Sparkles size={20} className="text-[#FDE3A7]" strokeWidth={2} />,
       action: (
         <Link
@@ -70,7 +70,7 @@ export const HeroProductsSection: React.FC = () => {
   return (
     <section id="hero-products" className="relative w-full border-b border-[#EEDBCA]">
       <ScrollSplitCard
-        imageSrc="/images/ashapura-specials-front.png"
+        imageSrc="/images/ashapura-specials-front.webp"
         cards={heroCards}
         endingText="Har Bite Mein Tradition — Fresh Daily in Mira Road"
       />

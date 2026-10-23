@@ -14,7 +14,7 @@ export const Logo: React.FC<LogoProps> = ({ compact = false, className = '' }) =
       aria-label="Ashapura Farsan, Namkeen & Wafers - Home"
     >
       <img
-        src="/images/ashapura-navbar-logo-transparent.png"
+        src="/images/ashapura-navbar-logo-transparent.webp"
         alt="Ashapura Farsan, Namkeen & Wafers"
         className={`${
           compact
