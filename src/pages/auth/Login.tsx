@@ -34,7 +34,11 @@ export const Login: React.FC = () => {
     try {
       const { error, isAdmin } = await signIn({ email, password });
       if (error) {
-        setErrorMsg(error);
+        if (error.toLowerCase().includes('email not confirmed')) {
+          setErrorMsg('Email not confirmed yet. Please click the confirmation link sent to your email, or disable "Confirm email" in Supabase Auth settings for instant login.');
+        } else {
+          setErrorMsg(error);
+        }
         setIsSubmitting(false);
         return;
       }
