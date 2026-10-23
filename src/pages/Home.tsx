@@ -1,17 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Hero } from '../components/Hero';
 import { SectionHeading } from '../components/SectionHeading';
 import { CategoryGrid } from '../components/CategoryGrid';
 import { HeroProductsSection } from '../components/HeroProductsSection';
 import { ProductGrid } from '../components/ProductGrid';
-import { PRODUCTS } from '../data/products';
+import { PRODUCTS as STATIC_PRODUCTS } from '../data/products';
+import { productService } from '../services/productService';
+import { Product } from '../types';
 import { ArrowRight } from 'lucide-react';
 import { SEO } from '../components/SEO';
 
 export const Home: React.FC = () => {
-  // Get 8 bestseller products per design.md 5.6
-  const bestsellers = PRODUCTS.filter((p) => p.bestseller).slice(0, 8);
+  const [products, setProducts] = useState<Product[]>(STATIC_PRODUCTS);
+
+  useEffect(() => {
+    productService.getActiveProducts().then((liveProducts) => {
+      if (liveProducts && liveProducts.length > 0) {
+        setProducts(liveProducts);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -111,23 +120,14 @@ export const Home: React.FC = () => {
 
         <div className="container-custom relative z-10">
           <SectionHeading
-            eyebrow="BEST SELLER"
+            eyebrow="OUR COLLECTION"
             titleRegular="Our Range of"
             titleItalic="Farsan"
-            subtitle="Discover our most loved picks — freshly made favourites chosen by our regular customers."
-            rightAction={
-              <Link
-                to="/shop"
-                className="h-[34px] px-4 rounded-full border border-[#B5651D] text-brown-900 text-[12px] font-semibold flex items-center gap-1.5 hover:bg-white/80 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-600"
-              >
-                <span>View All Products</span>
-                <ArrowRight size={13} strokeWidth={2} />
-              </Link>
-            }
+            subtitle="Discover our complete range of authentic farsan, namkeen, wafers and snacks — freshly made with pure ingredients in Mira Road."
           />
 
-          {/* Product cards row (horizontal snap on mobile, 4-col on desktop) */}
-          <ProductGrid products={bestsellers} horizontalOnMobile={true} />
+          {/* All Product Cards Grid */}
+          <ProductGrid products={products} horizontalOnMobile={false} />
         </div>
       </section>
     </>
