@@ -48,3 +48,9 @@ without_benefits_strip.png
 hero_without_line.png
 header_logo_full.png
 logo_preview.png
+
+# Media archives & python cache
+*.zip
+__pycache__/
+*.pyc
+
