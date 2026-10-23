@@ -1,7 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { CATEGORIES } from '../data/categories';
-import { PRODUCTS } from '../data/products';
+import { PRODUCTS as STATIC_PRODUCTS } from '../data/products';
+import { productService } from '../services/productService';
+import { Product } from '../types';
 import { ProductGrid } from '../components/ProductGrid';
 import { SectionHeading } from '../components/SectionHeading';
 import { SEO } from '../components/SEO';
@@ -11,10 +13,19 @@ export const Shop: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentCategory = searchParams.get('category') || '';
   const currentQuery = searchParams.get('q') || '';
+  const [allProducts, setAllProducts] = useState<Product[]>(STATIC_PRODUCTS);
+
+  useEffect(() => {
+    productService.getActiveProducts().then((liveProducts) => {
+      if (liveProducts && liveProducts.length > 0) {
+        setAllProducts(liveProducts);
+      }
+    });
+  }, []);
 
   // Filter products based on category and query
   const filteredProducts = useMemo(() => {
-    return PRODUCTS.filter((product) => {
+    return allProducts.filter((product) => {
       const matchesCategory = currentCategory
         ? product.categorySlug === currentCategory
         : true;
@@ -24,7 +35,7 @@ export const Shop: React.FC = () => {
         : true;
       return matchesCategory && matchesQuery;
     });
-  }, [currentCategory, currentQuery]);
+  }, [allProducts, currentCategory, currentQuery]);
 
   const handleCategorySelect = (slug: string) => {
     const nextParams = new URLSearchParams(searchParams);
@@ -139,12 +150,12 @@ export const Shop: React.FC = () => {
                     : 'bg-white text-brown-900 border-line hover:border-orange-500'
                 }`}
               >
-                All Categories ({PRODUCTS.length})
+                All Categories ({allProducts.length})
               </button>
 
               {CATEGORIES.map((cat) => {
                 const isSelected = currentCategory === cat.slug;
-                const count = PRODUCTS.filter((p) => p.categorySlug === cat.slug).length;
+                const count = allProducts.filter((p) => p.categorySlug === cat.slug).length;
                 return (
                   <button
                     key={cat.slug}

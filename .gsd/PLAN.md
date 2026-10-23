@@ -1,79 +1,21 @@
----
-phase: 5
-plan: 1
-wave: 1
-gap_closure: false
----
+# Phase 6 Plan — Production E-Commerce Full-Stack Implementation
 
-# Plan 5.1: Hero Specialties Visual Cutouts & 3D Split Card Integration
+**Phase:** Phase 6  
+**Goal:** Implement full-stack e-commerce architecture with Supabase (PostgreSQL, Auth, RLS, Storage), persistent customer accounts, order management, checkout integration, and protected admin dashboard.
 
-## Objective
-Process the user-provided product photos for Ashapura Spcl Multigrain Chivda and Ashapura Spcl Khatta Meetha Mix, crop extraneous whitespace/padding, save optimized PNG assets, and integrate them into the 3D scroll-split card showcase alongside Ashapura Spcl Kachori with full responsiveness and visual verification.
+## Tasks:
+- [x] Task 6.1: Supabase client & environment configuration
+- [x] Task 6.2: Normalized PostgreSQL database migrations
+- [x] Task 6.3: Product catalog & variants seeding
+- [x] Task 6.4: Row Level Security policies & PostgreSQL RPC functions
+- [x] Task 6.5: Supabase Storage bucket configuration
+- [x] Task 6.6: Customer authentication system (Login, Register, Password Reset)
+- [x] Task 6.7: Customer account dashboard (Overview, Orders, Details, Profile, Addresses)
+- [x] Task 6.8: Protected Admin portal (Dashboard, Products, Orders, Customers, Settings)
+- [x] Task 6.9: Checkout integration with server-calculated price verification & order generation
+- [x] Task 6.10: Automated testing & production build verification
 
-## Context
-- `.gsd/SPEC.md`
-- `.gsd/ROADMAP.md`
-- `src/components/ScrollSplitCard.tsx`
-- `src/components/HeroProductsSection.tsx`
-- `src/data/products.ts`
-
-## Tasks
-
-<task type="auto">
-  <name>Task 1: Process and Crop Product Cutout Images</name>
-  <files>
-    public/images/products/hero-multigrain-chivda.png
-    public/images/products/hero-khatta-meetha.png
-  </files>
-  <action>
-    Analyze the bounding boxes of the non-transparent/non-white pixels of:
-    - media_1792670026865_8af266ca.png (Multigrain Chivda)
-    - media_1792670026872_5959db5b.png (Khatta Meetha Mix)
-    Crop them with appropriate padding to ensure high-resolution, centered transparent PNGs.
-  </action>
-  <verify>Check file existence and dimensions via node script</verify>
-  <done>Both images exist with clean transparent borders in public/images/products/</done>
-</task>
-
-<task type="auto">
-  <name>Task 2: Integrate Images in HeroProductsSection & ScrollSplitCard</name>
-  <files>
-    src/components/HeroProductsSection.tsx
-    src/components/ScrollSplitCard.tsx
-  </files>
-  <action>
-    Assign image paths to heroCards in HeroProductsSection.tsx:
-    - hero-kachori.png for Ashapura Spcl Kachori
-    - hero-multigrain-chivda.png for Ashapura Spcl Multigrain Chivda
-    - hero-khatta-meetha.png for Ashapura Spcl Khatta Meetha Mix
-    Harmonize ScrollSplitCard.tsx so all three cards render symmetrically with glowing aura, product visual, Cormorant Garamond title, DM Sans description, price, and order button.
-  </action>
-  <verify>npx tsc --noEmit</verify>
-  <done>TypeScript compiles with zero errors</done>
-</task>
-
-<task type="auto">
-  <name>Task 3: Update Product Database</name>
-  <files>
-    src/data/products.ts
-  </files>
-  <action>
-    Update product records for hero-ashapura-spcl-multigrain-chivda and hero-ashapura-spcl-khatta-meetha-mix with their new hero image paths.
-  </action>
-  <verify>Grep product records in src/data/products.ts</verify>
-  <done>Images mapped properly for search and cart</done>
-</task>
-
-<task type="auto">
-  <name>Task 4: Empirical Visual Verification & Build</name>
-  <files>
-    scratch/hero-split-stage4.png
-    scratch/hero-split-mobile.png
-  </files>
-  <action>
-    Capture desktop (1440px) and mobile (390px) screenshots at stage 4 (flipped cards).
-    Run production build (npm run build).
-  </action>
-  <verify>Review screenshots and confirm build exit code 0</verify>
-  <done>Screenshots verified, build passes, GSD SUMMARY.md generated</done>
-</task>
+## Verification Criteria:
+- Automated tests pass: 18/18 tests passed (`npm test`).
+- TypeScript compiler passes without errors: 0 errors (`npx tsc --noEmit`).
+- Production build succeeds: Exit code 0 (`npm run build`).

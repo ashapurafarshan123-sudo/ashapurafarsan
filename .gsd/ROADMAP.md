@@ -49,3 +49,22 @@
 - [x] Task 5.10: Implement HTML/CSS front card editorial content hierarchy (Eyebrow, Main heading, Supporting text)
 - [x] Task 5.11: Update scroll instruction to "SCROLL TO DISCOVER OUR SIGNATURE FAVOURITES" with animated arrow and decorative rules
 - [x] Task 5.12: Prevent mobile collision between scroll instruction and sticky conclusion quote
+
+
+## Phase 6: Production E-Commerce Full-Stack Implementation
+- [x] Task 6.1: Full repository audit & Supabase client integration (`@supabase/supabase-js`, `src/lib/supabase.ts`, `.env.example`)
+- [x] Task 6.2: Normalized PostgreSQL schema migrations (`20261023000001_core_schema.sql` - `profiles`, `admin_roles`, `categories`, `products`, `product_variants`, `user_addresses`, `orders`, `order_items`, `store_settings`)
+- [x] Task 6.3: Catalog seed migrations (`20261023000002_seed_products.sql` - 12 categories, 35 products with 250g, 500g, 1kg prices, store settings)
+- [x] Task 6.4: Row Level Security & Secure PostgreSQL RPC functions (`20261023000003_rls_and_rpc.sql` - `is_admin`, `create_order_secure`, `admin_get_dashboard_stats`, `admin_update_order_status`)
+- [x] Task 6.5: Supabase Storage bucket configuration (`20261023000004_storage.sql` - `product-images` with admin-only upload policies)
+- [x] Task 6.6: Consolidated database setup script (`supabase/full_schema_setup.sql`)
+- [x] Task 6.7: Centralized Authentication Provider (`src/context/AuthContext.tsx`, `ProtectedRoute`, `AdminRoute`, `GuestRoute`)
+- [x] Task 6.8: Customer Authentication Pages (`Login.tsx`, `Register.tsx`, `ForgotPassword.tsx`, `ResetPassword.tsx`)
+- [x] Task 6.9: Customer Account Dashboard (`AccountLayout.tsx`, `AccountOverview.tsx`, `AccountOrders.tsx`, `OrderDetail.tsx`, `AccountProfile.tsx`, `AccountAddresses.tsx`)
+- [x] Task 6.10: Service Layer (`orderService.ts`, `productService.ts`, `adminService.ts` with offline fallback)
+- [x] Task 6.11: Protected Admin Dashboard (`AdminLayout.tsx`, `AdminOverview.tsx`, `AdminProducts.tsx`, `AdminOrders.tsx`, `AdminCustomers.tsx`, `AdminSettings.tsx`)
+- [x] Task 6.12: Checkout integration (`PlaceOrder.tsx` with persistent order generation, verified order number format, autofill, address saving, and formatted WhatsApp message)
+- [x] Task 6.13: Header dynamic account routing & indicator (`Header.tsx`)
+- [x] Task 6.14: Automated test suite (`tests/auth_validation.test.js`, `tests/order_calculations.test.js`, `tests/admin_authorization.test.js`, `tests/database_migrations.test.js`)
+- [x] Task 6.15: Setup guide & documentation (`docs/SUPABASE_SETUP.md`, `README.md`)
+- [x] Task 6.16: TypeScript type-check (`tsc`) & production build verification (`npm run build`)

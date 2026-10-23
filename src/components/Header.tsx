@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { User, ShoppingBag, Menu, X, Search } from 'lucide-react';
+import { User, ShoppingBag, Menu, X, Search, ShieldCheck } from 'lucide-react';
 import { Logo } from './Logo';
 import { SearchBar } from './SearchBar';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const Header: React.FC = () => {
   const { totalItems, openDrawer } = useCart();
+  const { user, profile, isAdmin } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,6 +40,14 @@ export const Header: React.FC = () => {
     { name: 'Contact', path: '/contact' },
     { name: 'FAQ', path: '/faq' },
   ];
+
+  // Dynamic user account destination
+  const userAccountPath = isAdmin ? '/admin' : user ? '/account' : '/login';
+  const userAriaLabel = isAdmin
+    ? 'Admin Dashboard'
+    : user
+    ? `Customer Account (${profile?.full_name || user.email})`
+    : 'Sign in to your customer account';
 
   return (
     <header
@@ -109,13 +119,21 @@ export const Header: React.FC = () => {
             <Search size={20} strokeWidth={1.5} />
           </button>
 
-          {/* User Icon -> /contact */}
+          {/* User Icon -> /account, /admin, or /login */}
           <Link
-            to="/contact"
-            className="p-1.5 xs:p-2 min-w-[38px] min-h-[38px] flex items-center justify-center text-brown-900 hover:text-orange-600 transition-colors rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600"
-            aria-label="Customer support & store contact"
+            to={userAccountPath}
+            className="relative p-1.5 xs:p-2 min-w-[38px] min-h-[38px] flex items-center justify-center text-brown-900 hover:text-orange-600 transition-colors rounded-full focus:outline-none focus:ring-2 focus:ring-orange-600"
+            aria-label={userAriaLabel}
+            title={userAriaLabel}
           >
-            <User size={20} strokeWidth={1.5} />
+            {isAdmin ? (
+              <ShieldCheck size={20} strokeWidth={1.8} className="text-orange-600" />
+            ) : (
+              <User size={20} strokeWidth={1.5} />
+            )}
+            {user && (
+              <span className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-green-500 border border-white" />
+            )}
           </Link>
 
           {/* Cart Icon with Red Badge */}
@@ -200,7 +218,40 @@ export const Header: React.FC = () => {
                     {link.name}
                   </NavLink>
                 ))}
+
+                {/* Account / Admin Link in Mobile Drawer */}
+                <div className="pt-2 border-t border-line/60">
+                  {isAdmin ? (
+                    <NavLink
+                      to="/admin"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 py-2 text-[14.5px] text-orange-600 font-bold"
+                    >
+                      <ShieldCheck size={16} />
+                      <span>Admin Management Dashboard</span>
+                    </NavLink>
+                  ) : user ? (
+                    <NavLink
+                      to="/account"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 py-2 text-[14.5px] text-orange-600 font-bold"
+                    >
+                      <User size={16} />
+                      <span>My Account ({profile?.full_name || 'Customer'})</span>
+                    </NavLink>
+                  ) : (
+                    <NavLink
+                      to="/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 py-2 text-[14.5px] text-brown-900 font-semibold hover:text-orange-600"
+                    >
+                      <User size={16} />
+                      <span>Sign In / Register</span>
+                    </NavLink>
+                  )}
+                </div>
               </nav>
+
               <div className="pt-2 text-xs text-brown-500 font-sans">
                 <p className="font-semibold text-brown-900">Ashapura Farsan</p>
                 <p>Shop No 15, Shantipark, Mira Road</p>
@@ -213,3 +264,4 @@ export const Header: React.FC = () => {
     </header>
   );
 };
+export default Header;
