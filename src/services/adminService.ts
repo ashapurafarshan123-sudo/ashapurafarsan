@@ -234,8 +234,8 @@ export const adminService = {
     if (!isSupabaseConfigured()) {
       return {
         contact: {
-          phone_primary: '801058 0082',
-          whatsapp_number: '919772331014',
+          phone_primary: '+91 79 7733 8814',
+          whatsapp_number: '917977338814',
           address: 'Shop No 15, Shantipark, Mira Road, Mumbai - 401107',
           hours: 'Open Daily: 8:00 AM - 10:30 PM',
         },

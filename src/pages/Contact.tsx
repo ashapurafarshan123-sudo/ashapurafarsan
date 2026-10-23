@@ -10,7 +10,7 @@ export const Contact: React.FC = () => {
     <>
       <SEO
         title="Contact Us & Store Location - Ashapura Farsan"
-        description="Visit Ashapura Farsan at Shop No 15, Shantipark, Mira Road, Mumbai. Call 801058 0082 or +91 97723 31014. Open daily 10 AM to 10 PM."
+        description="Visit Ashapura Farsan at Shop No 15, Shantipark, Mira Road, Mumbai. Call or WhatsApp +91 79 7733 8814. Open daily 10 AM to 10 PM."
       />
 
       <div className="bg-cream-50 min-h-screen py-10 sm:py-16">

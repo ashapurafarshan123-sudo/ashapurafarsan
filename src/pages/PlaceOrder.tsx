@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { orderService } from '../services/orderService';
 import { SHOP_CONFIG } from '../config/shop';
 import { WhatsAppIcon } from '../components/Icons';
+import { getWhatsAppOrderUrl } from '../utils/whatsapp';
 import { SectionHeading } from '../components/SectionHeading';
 import { SEO } from '../components/SEO';
 import {
@@ -134,28 +135,14 @@ export const PlaceOrder: React.FC = () => {
       }
 
       // 2. Generate WhatsApp message containing verified database order number
-      const itemsList = items
-        .map(
-          (item, idx) =>
-            `${idx + 1}. ${item.product.name} (${item.weight}) x ${item.quantity} = Rs.${item.price * item.quantity}`
-        )
-        .join('\n');
-
-      const messageLines = [
-        `*New Order - Ashapura Farsan*`,
-        `Order #: ${result.order_number}`,
-        `Name: ${formData.name.trim()}`,
-        `Phone: ${formData.phone.trim()}`,
-        `Type: ${formData.type === 'delivery' ? 'Home Delivery' : 'Shop Pickup'}`,
-        formData.type === 'delivery' ? `Address: ${formData.address.trim()}` : null,
-        `Items:`,
-        itemsList,
-        `Total: Rs.${result.total_amount}`,
-        formData.note.trim() ? `Note: ${formData.note.trim()}` : null,
-      ].filter(Boolean);
-
-      const fullMessage = messageLines.join('\n');
-      const waUrl = `https://wa.me/${SHOP_CONFIG.whatsappNumber}?text=${encodeURIComponent(fullMessage)}`;
+      const waUrl = getWhatsAppOrderUrl(items, result.total_amount, {
+        orderNumber: result.order_number,
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        orderType: formData.type,
+        address: formData.type === 'delivery' ? formData.address.trim() : undefined,
+        note: formData.note.trim() || undefined,
+      });
 
       // Open WhatsApp in new tab
       window.open(waUrl, '_blank', 'noopener,noreferrer');

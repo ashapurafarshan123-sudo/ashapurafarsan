@@ -255,7 +255,7 @@ export const Header: React.FC = () => {
               <div className="pt-2 text-xs text-brown-500 font-sans">
                 <p className="font-semibold text-brown-900">Ashapura Farsan</p>
                 <p>Shop No 15, Shantipark, Mira Road</p>
-                <p className="mt-1">Call: 801058 0082 / +91 97723 31014</p>
+                <p className="mt-1">Call / WhatsApp: +91 79 7733 8814</p>
               </div>
             </motion.div>
           )}

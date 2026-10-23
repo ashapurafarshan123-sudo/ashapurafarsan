@@ -4,6 +4,8 @@ import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SmartImage } from './SmartImage';
+import { WhatsAppIcon } from './Icons';
+import { getWhatsAppOrderUrl } from '../utils/whatsapp';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -206,13 +208,23 @@ export const CartDrawer: React.FC = () => {
                     Taxes included. Delivery charges (if applicable) confirmed directly by shop on WhatsApp.
                   </p>
 
+                  <a
+                    href={getWhatsAppOrderUrl(items, subtotal)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full h-11 bg-[#25D366] hover:bg-[#20bd5a] active:bg-[#1da850] text-white font-bold text-sm rounded-full shadow-cta flex items-center justify-center gap-2 transition-all active:translate-y-[1px]"
+                  >
+                    <WhatsAppIcon size={18} className="text-white" />
+                    <span>Order on WhatsApp (Direct to Shop)</span>
+                  </a>
+
                   <button
                     type="button"
                     onClick={handleCheckout}
-                    className="w-full h-11 bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm rounded-full shadow-cta flex items-center justify-center gap-2 transition-all active:translate-y-[1px]"
+                    className="w-full h-10 bg-white hover:bg-cream-50 text-brown-900 border border-line font-semibold text-xs rounded-full flex items-center justify-center gap-2 transition-all active:translate-y-[1px]"
                   >
-                    <span>Proceed to Place Order</span>
-                    <ArrowRight size={15} strokeWidth={2} />
+                    <span>Or Fill Delivery Address on Website</span>
+                    <ArrowRight size={13} strokeWidth={2} />
                   </button>
 
                   <div className="text-center pt-1">
