@@ -37,10 +37,14 @@ const AccountProfile = lazy(() => import('./pages/account/AccountProfile'));
 const AccountAddresses = lazy(() => import('./pages/account/AccountAddresses'));
 
 // Lazy-loaded Admin Routes
+const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'));
 const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
 const AdminOverview = lazy(() => import('./pages/admin/AdminOverview'));
-const AdminOrders = lazy(() => import('./pages/admin/AdminOrders'));
 const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'));
+const AdminWebsiteOrders = lazy(() => import('./pages/admin/AdminWebsiteOrders'));
+const AdminWhatsAppOrders = lazy(() => import('./pages/admin/AdminWhatsAppOrders'));
+const AdminDiscounts = lazy(() => import('./pages/admin/AdminDiscounts'));
+const AdminReports = lazy(() => import('./pages/admin/AdminReports'));
 const AdminCustomers = lazy(() => import('./pages/admin/AdminCustomers'));
 const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'));
 
@@ -127,6 +131,9 @@ const AppShell: React.FC = () => {
               <Route path="addresses" element={<AccountAddresses />} />
             </Route>
 
+            {/* Dedicated Admin Login */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+
             {/* Admin Management Dashboard */}
             <Route
               path="/admin"
@@ -137,8 +144,12 @@ const AppShell: React.FC = () => {
               }
             >
               <Route index element={<AdminOverview />} />
-              <Route path="orders" element={<AdminOrders />} />
               <Route path="products" element={<AdminProducts />} />
+              <Route path="website-orders" element={<AdminWebsiteOrders />} />
+              <Route path="orders" element={<AdminWebsiteOrders />} />
+              <Route path="whatsapp-orders" element={<AdminWhatsAppOrders />} />
+              <Route path="discounts" element={<AdminDiscounts />} />
+              <Route path="reports" element={<AdminReports />} />
               <Route path="customers" element={<AdminCustomers />} />
               <Route path="settings" element={<AdminSettings />} />
             </Route>

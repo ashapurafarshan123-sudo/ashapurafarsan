@@ -5,9 +5,9 @@ import { useCart } from '../context/CartContext';
 import { getWhatsAppOrderUrl } from '../utils/whatsapp';
 
 export const StickyMobileBar: React.FC = () => {
-  const { items, subtotal, totalItems, openDrawer } = useCart();
+  const { items, finalTotal, totalItems, openDrawer } = useCart();
   const hasItems = items.length > 0;
-  const whatsappUrl = getWhatsAppOrderUrl(items, subtotal);
+  const whatsappUrl = getWhatsAppOrderUrl(items, finalTotal);
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-2 pb-[max(0.625rem,env(safe-area-inset-bottom))] bg-[#FFFBF5]/95 backdrop-blur-md border-t border-[#EEDBCA] shadow-[0_-4px_20px_rgba(58,27,16,0.12)] flex items-center gap-2">
@@ -21,7 +21,7 @@ export const StickyMobileBar: React.FC = () => {
         <WhatsAppIcon size={18} className="text-white flex-shrink-0" />
         <span className="truncate">
           {hasItems
-            ? `Order on WhatsApp (${totalItems} items • ₹${subtotal})`
+            ? `Order on WhatsApp (${totalItems} items • ₹${finalTotal})`
             : 'Order on WhatsApp (+91 79 7733 8814)'}
         </span>
       </a>

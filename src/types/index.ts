@@ -1,4 +1,4 @@
-export type ProductWeight = '250g' | '500g' | '1kg';
+export type ProductWeight = '250g' | '500g' | '750g' | '1kg';
 
 export interface Product {
   id: string;
@@ -8,9 +8,11 @@ export interface Product {
   description: string;
   image: string;
   bestseller: boolean;
+  isActive?: boolean;
   prices: {
     '250g': number;
     '500g': number;
+    '750g'?: number;
     '1kg': number;
   };
 }
@@ -20,6 +22,7 @@ export interface Category {
   title: string;
   subtitle: string;
   image: string;
+  cardImage?: string;
   themeColor?: string;
   textColor?: string;
   subtextColor?: string;
@@ -123,6 +126,16 @@ export interface OrderRecord {
   order_items?: OrderItemRecord[];
 }
 
+export interface GlobalDiscountConfig {
+  is_active: boolean;
+  type: 'percentage' | 'fixed';
+  value: number;
+  min_order_amount: number;
+  start_date: string | null;
+  end_date: string | null;
+  banner_text?: string;
+}
+
 export interface StoreSettings {
   shipping?: {
     standard_fee: number;
@@ -140,6 +153,42 @@ export interface StoreSettings {
     accepting_orders: boolean;
     announcement: string;
   };
+  global_discount?: GlobalDiscountConfig;
+  currency?: string;
+}
+
+export interface BestSellingProduct {
+  product_name: string;
+  product_id: string;
+  units_sold: number;
+  total_revenue: number;
+}
+
+export interface DailyTrend {
+  date: string;
+  order_count: number;
+  daily_revenue: number;
+}
+
+export interface AdminAdvancedAnalytics {
+  gross_sales: number;
+  net_sales: number;
+  discounts_granted: number;
+  refunds: number;
+  total_orders: number;
+  website_orders_count: number;
+  website_sales: number;
+  whatsapp_orders_count: number;
+  whatsapp_confirmed_count: number;
+  whatsapp_sales: number;
+  pending_orders_count: number;
+  today_sales: number;
+  this_month_sales: number;
+  in_stock_products_count: number;
+  out_of_stock_products_count: number;
+  average_order_value: number;
+  best_selling_products: BestSellingProduct[];
+  daily_trends: DailyTrend[];
 }
 
 export interface AdminDashboardStats {

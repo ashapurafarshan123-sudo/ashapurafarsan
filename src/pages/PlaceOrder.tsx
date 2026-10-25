@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 export const PlaceOrder: React.FC = () => {
-  const { items, subtotal, formatPrice, clearCart } = useCart();
+  const { items, subtotal, discountAmount, finalTotal, globalDiscount, formatPrice, clearCart } = useCart();
   const { user, profile } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -501,6 +501,12 @@ export const PlaceOrder: React.FC = () => {
                     <span>Subtotal</span>
                     <span className="font-bold text-brown-900">{formatPrice(subtotal)}</span>
                   </div>
+                  {discountAmount > 0 && (
+                    <div className="flex justify-between text-xs text-orange-600 font-bold bg-orange-50 p-2 rounded border border-orange-200">
+                      <span>{globalDiscount?.banner_text || 'Storewide Discount'}</span>
+                      <span>-{formatPrice(discountAmount)}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-xs text-brown-700">
                     <span>Delivery</span>
                     <span className="text-green-700 font-semibold">
@@ -509,7 +515,7 @@ export const PlaceOrder: React.FC = () => {
                   </div>
                   <div className="flex justify-between text-base font-bold text-brown-900 pt-2 border-t border-line">
                     <span>Total Amount</span>
-                    <span className="text-orange-600 font-sans text-lg">{formatPrice(subtotal)}</span>
+                    <span className="text-orange-600 font-sans text-lg">{formatPrice(finalTotal)}</span>
                   </div>
                 </div>
 

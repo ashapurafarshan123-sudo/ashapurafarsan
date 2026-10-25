@@ -115,6 +115,89 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
     }
   };
 
+  if (category.cardImage) {
+    const outerClipId = `outer-jharokha-${category.slug}`;
+    return (
+      <Link
+        to={`/shop?category=${category.slug}`}
+        className="group relative flex-shrink-0 w-[146px] sm:w-[158px] md:w-[164px] h-[345px] sm:h-[365px] md:h-[375px] block select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 focus-visible:ring-offset-4 rounded-[28px] transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]"
+        aria-label={`Browse ${category.title} category`}
+      >
+        <div className="w-full h-full filter drop-shadow-[0_10px_20px_rgba(70,35,15,0.16)] group-hover:drop-shadow-[0_18px_30px_rgba(70,35,15,0.24)] transition-all duration-300">
+          <svg
+            viewBox="0 0 145 340"
+            className="w-full h-full block overflow-visible"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <clipPath id={outerClipId}>
+                <path
+                  d="
+                    M 72.5 2
+                    C 78 7, 85 13, 93 17
+                    C 107 23, 118 33, 122 41
+                    C 127 45, 137 49, 142 56
+                    C 144 60, 145 65, 145 70
+                    L 145 282
+                    C 145 295, 137 304, 127 308
+                    C 122 314, 113 322, 97 329
+                    C 86 334, 77 338, 72.5 338
+                    C 68 338, 59 334, 48 329
+                    C 32 322, 23 314, 18 308
+                    C 8 304, 0 295, 0 282
+                    L 0 70
+                    C 0 65, 1 60, 3 56
+                    C 8 49, 18 45, 23 41
+                    C 27 33, 38 23, 52 17
+                    C 60 13, 67 7, 72.5 2
+                    Z
+                  "
+                />
+              </clipPath>
+            </defs>
+            <g clipPath={`url(#${outerClipId})`}>
+              <image
+                href={category.cardImage}
+                x="0"
+                y="0"
+                width="145"
+                height="340"
+                preserveAspectRatio="none"
+                className="transition-transform duration-500 ease-out group-hover:scale-105"
+              />
+            </g>
+            <path
+              d="
+                M 72.5 2
+                C 78 7, 85 13, 93 17
+                C 107 23, 118 33, 122 41
+                C 127 45, 137 49, 142 56
+                C 144 60, 145 65, 145 70
+                L 145 282
+                C 145 295, 137 304, 127 308
+                C 122 314, 113 322, 97 329
+                C 86 334, 77 338, 72.5 338
+                C 68 338, 59 334, 48 329
+                C 32 322, 23 314, 18 308
+                C 8 304, 0 295, 0 282
+                L 0 70
+                C 0 65, 1 60, 3 56
+                C 8 49, 18 45, 23 41
+                C 27 33, 38 23, 52 17
+                C 60 13, 67 7, 72.5 2
+                Z
+              "
+              stroke={strokeColor}
+              strokeWidth="1.2"
+              fill="none"
+            />
+          </svg>
+        </div>
+      </Link>
+    );
+  }
+
   const clipId = `food-arch-${category.slug}`;
 
   return (

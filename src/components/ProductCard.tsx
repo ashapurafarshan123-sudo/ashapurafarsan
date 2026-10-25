@@ -12,7 +12,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [selectedWeight, setSelectedWeight] = useState<ProductWeight>('250g');
   const { items, addToCart, formatPrice } = useCart();
 
-  const currentPrice = product.prices[selectedWeight];
+  const currentPrice = product.prices[selectedWeight] || 0;
   const currentItemId = `${product.id}-${selectedWeight}`;
   const isInCart = items.some((item) => item.id === currentItemId);
 
@@ -23,6 +23,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const weights: { key: ProductWeight; label: string }[] = [
     { key: '250g', label: '250 g' },
     { key: '500g', label: '500 g' },
+    ...(product.prices['750g'] && product.prices['750g'] > 0
+      ? [{ key: '750g' as ProductWeight, label: '750 g' }]
+      : []),
     { key: '1kg', label: '1 kg' },
   ];
 
@@ -30,17 +33,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     <div className="bg-white border border-line rounded-card shadow-card hover:shadow-card-hover transition-all duration-200 p-3.5 sm:p-4 flex flex-col justify-between h-full group">
       {/* Photo Area with Peach Halo Backdrop & Bestseller Tag */}
       <div className="relative w-full h-[140px] sm:h-[150px] bg-peach-halo/60 rounded-lg flex items-center justify-center overflow-hidden mb-3.5">
-        {product.bestseller && (
+        {product.isActive === false ? (
+          <span className="absolute top-2 left-2 z-10 px-2 py-0.5 bg-stone-800 text-white text-[10px] font-bold rounded tracking-wide shadow-sm">
+            Out of Stock
+          </span>
+        ) : product.bestseller ? (
           <span className="absolute top-2 left-2 z-10 px-2 py-0.5 bg-[#FDE3C6] text-orange-600 text-[10px] font-bold rounded tracking-wide shadow-sm">
             Bestseller
           </span>
-        )}
+        ) : null}
 
         <SmartImage
           src={product.image}
           alt={product.name}
           titleName={product.name}
-          className="w-[100px] sm:w-[110px] h-[100px] sm:h-[110px] object-cover rounded-full shadow-sm transition-transform duration-300 group-hover:scale-105"
+          className={`w-[100px] sm:w-[110px] h-[100px] sm:h-[110px] object-cover rounded-full shadow-sm transition-transform duration-300 ${
+            product.isActive === false ? 'opacity-50 grayscale' : 'group-hover:scale-105'
+          }`}
           haloClassName="w-[100px] sm:w-[110px] h-[100px] sm:h-[110px]"
           loading="lazy"
           width={110}
@@ -95,18 +104,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <button
             type="button"
             onClick={handleAdd}
+            disabled={product.isActive === false}
             className={`h-[34px] px-3.5 rounded-full text-[12px] font-medium font-sans flex items-center gap-1.5 transition-all shadow-sm ${
-              isInCart
+              product.isActive === false
+                ? 'bg-stone-300 text-stone-600 cursor-not-allowed opacity-80'
+                : isInCart
                 ? 'bg-green-700 hover:bg-green-800 text-white active:translate-y-[1px]'
                 : 'bg-orange-600 hover:bg-orange-700 text-white active:translate-y-[1px]'
             }`}
             aria-label={
-              isInCart
+              product.isActive === false
+                ? `${product.name} is currently out of stock`
+                : isInCart
                 ? `${product.name} (${selectedWeight}) is in cart. Add another.`
                 : `Add ${product.name} (${selectedWeight}) to cart`
             }
           >
-            {isInCart ? (
+            {product.isActive === false ? (
+              <span>Out of Stock</span>
+            ) : isInCart ? (
               <>
                 <Check size={14} strokeWidth={2.5} />
                 <span>Added</span>

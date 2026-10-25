@@ -16,7 +16,7 @@ export const AdminRoute: React.FC<{ children: React.ReactElement }> = ({ childre
   }
 
   if (!user) {
-    return <Navigate to="/login?redirect=/admin" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   if (!isAdmin) {

@@ -26,6 +26,7 @@ export const CATEGORIES: Category[] = [
     title: 'Nali',
     subtitle: 'Crispy spirals',
     image: '/images/categories/food-snacks.png',
+    cardImage: '/images/categories/card-nali.webp',
     themeColor: '#A87928', // Warm Mustard Ochre
     textColor: '#FFFFFF',
     subtextColor: 'rgba(255, 255, 255, 0.85)',

@@ -13,6 +13,7 @@ export interface AdminProductPayload {
   prices: {
     '250g': number;
     '500g': number;
+    '750g'?: number;
     '1kg': number;
   };
   isActive?: boolean;
@@ -54,7 +55,7 @@ export const productService = {
 
       // Format to frontend Product interface
       return dbProducts.map((p) => {
-        const prices: { '250g': number; '500g': number; '1kg': number } = {
+        const prices: { '250g': number; '500g': number; '750g'?: number; '1kg': number } = {
           '250g': 0,
           '500g': 0,
           '1kg': 0,
@@ -62,7 +63,9 @@ export const productService = {
 
         if (Array.isArray(p.product_variants)) {
           p.product_variants.forEach((v: { size_label: string; price: number }) => {
-            if (v.size_label in prices) {
+            if (v.size_label === '750g') {
+              prices['750g'] = Number(v.price);
+            } else if (v.size_label in prices) {
               prices[v.size_label as ProductWeight] = Number(v.price);
             }
           });
@@ -118,7 +121,7 @@ export const productService = {
       }
 
       return dbProducts.map((p) => {
-        const prices: { '250g': number; '500g': number; '1kg': number } = {
+        const prices: { '250g': number; '500g': number; '750g'?: number; '1kg': number } = {
           '250g': 0,
           '500g': 0,
           '1kg': 0,
@@ -126,7 +129,9 @@ export const productService = {
 
         if (Array.isArray(p.product_variants)) {
           p.product_variants.forEach((v: { size_label: string; price: number }) => {
-            if (v.size_label in prices) {
+            if (v.size_label === '750g') {
+              prices['750g'] = Number(v.price);
+            } else if (v.size_label in prices) {
               prices[v.size_label as ProductWeight] = Number(v.price);
             }
           });
@@ -175,18 +180,20 @@ export const productService = {
       if (prodErr) return { success: false, error: prodErr.message };
 
       // Upsert variants
-      const weights: ProductWeight[] = ['250g', '500g', '1kg'];
+      const weights: ProductWeight[] = ['250g', '500g', '750g', '1kg'];
       for (const w of weights) {
-        const price = payload.prices[w] || 0;
-        await supabase.from('product_variants').upsert(
-          {
-            product_id: productId,
-            size_label: w,
-            price,
-            is_active: true,
-          },
-          { onConflict: 'product_id,size_label' }
-        );
+        const price = payload.prices[w];
+        if (price !== undefined && price > 0) {
+          await supabase.from('product_variants').upsert(
+            {
+              product_id: productId,
+              size_label: w,
+              price: Number(price),
+              is_active: true,
+            },
+            { onConflict: 'product_id,size_label' }
+          );
+        }
       }
 
       return { success: true };
@@ -196,7 +203,7 @@ export const productService = {
   },
 
   /**
-   * Admin: Toggle product active/inactive (Soft archive)
+   * Admin: Toggle product active/inactive (Stock toggle / soft archive)
    */
   async toggleProductActive(productId: string, currentStatus: boolean): Promise<boolean> {
     if (!isSupabaseConfigured()) return true;
@@ -210,6 +217,61 @@ export const productService = {
       return !error;
     } catch {
       return false;
+    }
+  },
+
+  /**
+   * Admin: Safe Delete Product (Checks if referenced by past orders)
+   */
+  async deleteProduct(productId: string): Promise<{ success: boolean; archived?: boolean; message?: string; error?: string }> {
+    if (!isSupabaseConfigured()) {
+      return { success: true, message: 'Product removed.' };
+    }
+
+    try {
+      // Check if product is referenced in order_items
+      const { count, error: countErr } = await supabase
+        .from('order_items')
+        .select('*', { count: 'exact', head: true })
+        .eq('product_id', productId);
+
+      if (countErr) {
+        console.warn('Could not check order items reference, defaulting to soft-delete:', countErr.message);
+      }
+
+      if (count && count > 0) {
+        // Safe archival: Mark inactive so order history is strictly preserved
+        const { error: archiveErr } = await supabase
+          .from('products')
+          .update({ is_active: false })
+          .eq('id', productId);
+
+        if (archiveErr) return { success: false, error: archiveErr.message };
+
+        return {
+          success: true,
+          archived: true,
+          message: 'Product is linked to previous order history and has been safely archived (marked Out of Stock/Inactive) to preserve financial integrity.',
+        };
+      }
+
+      // If no past orders reference it, delete product_variants then product
+      await supabase.from('product_variants').delete().eq('product_id', productId);
+      const { error: delErr } = await supabase.from('products').delete().eq('id', productId);
+
+      if (delErr) {
+        // If foreign key constraint blocks deletion, fall back to soft archive
+        await supabase.from('products').update({ is_active: false }).eq('id', productId);
+        return {
+          success: true,
+          archived: true,
+          message: 'Product safely archived to preserve data integrity.',
+        };
+      }
+
+      return { success: true, message: 'Product deleted permanently.' };
+    } catch (err: unknown) {
+      return { success: false, error: (err as Error)?.message || 'Failed to delete product' };
     }
   },
 

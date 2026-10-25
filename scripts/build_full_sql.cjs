@@ -4,6 +4,7 @@ const f1 = fs.readFileSync('supabase/migrations/20261023000001_core_schema.sql',
 const f2 = fs.readFileSync('supabase/migrations/20261023000002_seed_products.sql', 'utf8');
 const f3 = fs.readFileSync('supabase/migrations/20261023000003_rls_and_rpc.sql', 'utf8');
 const f4 = fs.readFileSync('supabase/migrations/20261023000004_storage.sql', 'utf8');
+const f5 = fs.readFileSync('supabase/migrations/20261026000001_admin_panel_enhancements.sql', 'utf8');
 
 const cleanupHeader = `-- ==============================================================================
 -- ASHAPURA FARSAN: CLEAN SCHEMA SETUP & RE-SYNC SCRIPT FOR SUPABASE
@@ -13,6 +14,7 @@ const cleanupHeader = `-- ======================================================
 
 -- 0. CLEAN UP CONFLICTING OLD PRE-REDESIGN TABLES
 -- (auth.users accounts in auth schema remain completely untouched and safe)
+DROP TABLE IF EXISTS public.discounts CASCADE;
 DROP TABLE IF EXISTS public.order_items CASCADE;
 DROP TABLE IF EXISTS public.orders CASCADE;
 DROP TABLE IF EXISTS public.user_addresses CASCADE;
@@ -24,6 +26,8 @@ DROP TABLE IF EXISTS public.store_settings CASCADE;
 DROP TABLE IF EXISTS public.profiles CASCADE;
 
 -- Drop obsolete functions if any
+DROP FUNCTION IF EXISTS public.admin_get_advanced_analytics CASCADE;
+DROP FUNCTION IF EXISTS public.provision_admin_by_email CASCADE;
 DROP FUNCTION IF EXISTS public.create_order_secure CASCADE;
 DROP FUNCTION IF EXISTS public.admin_get_dashboard_stats CASCADE;
 DROP FUNCTION IF EXISTS public.admin_update_order_status CASCADE;
@@ -41,7 +45,9 @@ const fullSql = [
   '\n-- ==============================================================================\n',
   f3,
   '\n-- ==============================================================================\n',
-  f4
+  f4,
+  '\n-- ==============================================================================\n',
+  f5
 ].join('\n');
 
 fs.writeFileSync('supabase/full_schema_setup.sql', fullSql, 'utf8');

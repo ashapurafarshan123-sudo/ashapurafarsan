@@ -7,6 +7,7 @@ describe('Database Migrations Integrity & RLS Verification', () => {
   const seedSql = fs.readFileSync('supabase/migrations/20261023000002_seed_products.sql', 'utf8');
   const rlsSql = fs.readFileSync('supabase/migrations/20261023000003_rls_and_rpc.sql', 'utf8');
   const storageSql = fs.readFileSync('supabase/migrations/20261023000004_storage.sql', 'utf8');
+  const adminEnhanceSql = fs.readFileSync('supabase/migrations/20261026000001_admin_panel_enhancements.sql', 'utf8');
 
   it('declares all required application tables with primary keys and foreign keys', () => {
     const requiredTables = [
@@ -70,5 +71,13 @@ describe('Database Migrations Integrity & RLS Verification', () => {
   it('defines storage policies for product-images bucket with admin-only upload', () => {
     assert.ok(storageSql.includes("bucket_id = 'product-images'"));
     assert.ok(storageSql.includes("public.is_admin(auth.uid())"));
+  });
+
+  it('defines discounts table, admin provisioning, and advanced analytics in admin enhancements migration', () => {
+    assert.ok(adminEnhanceSql.includes('CREATE TABLE IF NOT EXISTS public.discounts'));
+    assert.ok(adminEnhanceSql.includes('ALTER TABLE public.discounts ENABLE ROW LEVEL SECURITY;'));
+    assert.ok(adminEnhanceSql.includes('FUNCTION public.provision_admin_by_email'));
+    assert.ok(adminEnhanceSql.includes('vaibhavchawda432@gmail.com'));
+    assert.ok(adminEnhanceSql.includes('FUNCTION public.admin_get_advanced_analytics'));
   });
 });

@@ -1,21 +1,28 @@
-# Phase 6 Plan — Production E-Commerce Full-Stack Implementation
+# GSD Plan: Plan 7.1 — Database Schema Enhancements & Admin Provisioning SQL
 
-**Phase:** Phase 6  
-**Goal:** Implement full-stack e-commerce architecture with Supabase (PostgreSQL, Auth, RLS, Storage), persistent customer accounts, order management, checkout integration, and protected admin dashboard.
+**Phase:** Phase 7 — Complete Supabase Admin Panel  
+**Plan:** 7.1  
+**Type:** Implementation & Database Architecture  
+**Autonomous:** Yes  
 
-## Tasks:
-- [x] Task 6.1: Supabase client & environment configuration
-- [x] Task 6.2: Normalized PostgreSQL database migrations
-- [x] Task 6.3: Product catalog & variants seeding
-- [x] Task 6.4: Row Level Security policies & PostgreSQL RPC functions
-- [x] Task 6.5: Supabase Storage bucket configuration
-- [x] Task 6.6: Customer authentication system (Login, Register, Password Reset)
-- [x] Task 6.7: Customer account dashboard (Overview, Orders, Details, Profile, Addresses)
-- [x] Task 6.8: Protected Admin portal (Dashboard, Products, Orders, Customers, Settings)
-- [x] Task 6.9: Checkout integration with server-calculated price verification & order generation
-- [x] Task 6.10: Automated testing & production build verification
+## Objective
+Design and implement safe database migrations, provisioning the initial admin role for `vaibhavchawda432@gmail.com`, introducing global discount configurations in Supabase, and adding comprehensive PostgreSQL RPC functions for administrative analytics and discount enforcement.
 
-## Verification Criteria:
-- Automated tests pass: 18/18 tests passed (`npm test`).
-- TypeScript compiler passes without errors: 0 errors (`npx tsc --noEmit`).
-- Production build succeeds: Exit code 0 (`npm run build`).
+## Tasks
+1. `[ ]` Task 7.1.1: Create `supabase/migrations/20261026000001_admin_panel_enhancements.sql`:
+   - Admin provisioning logic for `vaibhavchawda432@gmail.com` into `public.admin_roles`.
+   - Dedicated `discounts` table with columns: `id`, `code`, `title`, `discount_percent`, `discount_amount`, `discount_type`, `min_order_amount`, `start_date`, `end_date`, `is_active`, `created_at`, `updated_at`.
+   - Update `store_settings` seed with default global discount configuration (`global_discount`).
+   - Enhance `create_order_secure` RPC to read active global discount from `store_settings` and enforce discount calculation at the backend boundary.
+   - Implement `admin_get_advanced_analytics(p_start_date TIMESTAMPTZ, p_end_date TIMESTAMPTZ)` RPC returning:
+     - Gross sales, net sales, discounts granted, order count, AOV
+     - Website orders vs. WhatsApp orders count and revenue breakdown
+     - In-stock and out-of-stock product counts
+     - Pending orders count
+     - Best-selling products aggregated from `order_items`
+     - Daily sales trend data
+2. `[ ]` Task 7.1.2: Update `supabase/full_schema_setup.sql` consolidating the enhancements for single-click execution.
+3. `[ ]` Task 7.1.3: Update database test suite in `tests/database_migrations.test.js` to verify new migration schema and RPC functions.
+
+## Verification
+- Run `node --test tests/database_migrations.test.js` to verify syntax and structural integrity.

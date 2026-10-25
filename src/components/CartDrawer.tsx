@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
+import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, Tag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { orderService } from '../services/orderService';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SmartImage } from './SmartImage';
 import { WhatsAppIcon } from './Icons';
@@ -15,6 +16,9 @@ export const CartDrawer: React.FC = () => {
     updateQuantity,
     removeFromCart,
     subtotal,
+    discountAmount,
+    finalTotal,
+    globalDiscount,
     formatPrice,
   } = useCart();
 
@@ -198,20 +202,61 @@ export const CartDrawer: React.FC = () => {
               {/* Footer Summary & Checkout */}
               {items.length > 0 && (
                 <div className="p-4 sm:p-5 bg-cream-100 border-t border-line space-y-3">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="font-medium text-brown-700">Subtotal</span>
-                    <span className="font-bold text-brown-900 text-lg font-sans">
+                  {/* Subtotal */}
+                  <div className="flex items-center justify-between text-xs sm:text-sm text-brown-700">
+                    <span className="font-medium">Subtotal</span>
+                    <span className="font-semibold text-brown-900 font-sans">
                       {formatPrice(subtotal)}
                     </span>
                   </div>
+
+                  {/* Active Storewide Discount */}
+                  {discountAmount > 0 && (
+                    <div className="flex items-center justify-between text-xs text-orange-600 bg-orange-50 px-2.5 py-1.5 rounded-lg border border-orange-200">
+                      <div className="flex items-center gap-1.5">
+                        <Tag size={12} />
+                        <span className="font-bold">
+                          {globalDiscount?.banner_text || 'Storewide Discount Applied'}
+                        </span>
+                      </div>
+                      <span className="font-bold font-sans">-{formatPrice(discountAmount)}</span>
+                    </div>
+                  )}
+
+                  {/* Final Total */}
+                  <div className="flex items-center justify-between text-sm sm:text-base border-t border-line/60 pt-2">
+                    <span className="font-bold text-brown-900">Total Payable</span>
+                    <span className="font-bold text-orange-600 text-lg font-sans">
+                      {formatPrice(finalTotal)}
+                    </span>
+                  </div>
+
                   <p className="text-[11px] text-brown-500 leading-tight">
                     Taxes included. Delivery charges (if applicable) confirmed directly by shop on WhatsApp.
                   </p>
 
                   <a
-                    href={getWhatsAppOrderUrl(items, subtotal)}
+                    href={getWhatsAppOrderUrl(items, finalTotal)}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => {
+                      // Non-blocking order intent capture in Supabase
+                      orderService.createOrder({
+                        customer_name: 'WhatsApp Customer (Direct Chat)',
+                        customer_phone: '9999999999',
+                        order_type: 'delivery',
+                        delivery_address: 'To be confirmed in WhatsApp conversation',
+                        order_note: 'Initiated via Cart Drawer WhatsApp button',
+                        payment_method: 'whatsapp_direct',
+                        items: items.map((i) => ({
+                          product_id: i.product.id,
+                          size_label: i.weight,
+                          quantity: i.quantity,
+                          product_name: i.product.name,
+                          unit_price: i.price,
+                        })),
+                      }).catch(() => {});
+                    }}
                     className="w-full h-11 bg-[#25D366] hover:bg-[#20bd5a] active:bg-[#1da850] text-white font-bold text-sm rounded-full shadow-cta flex items-center justify-center gap-2 transition-all active:translate-y-[1px]"
                   >
                     <WhatsAppIcon size={18} className="text-white" />
