@@ -1,16 +1,18 @@
 import React from 'react';
 import { SectionHeading } from '../components/SectionHeading';
 import { SEO } from '../components/SEO';
-import { SHOP_CONFIG } from '../config/shop';
 import { MapPin, Phone, Clock, ExternalLink } from 'lucide-react';
 import { WhatsAppIcon } from '../components/Icons';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 
 export const Contact: React.FC = () => {
+  const { contact } = useStoreSettings();
+
   return (
     <>
       <SEO
         title="Contact Us & Store Location - Ashapura Farsan"
-        description="Visit Ashapura Farsan at Shop No 15, Shantipark, Mira Road, Mumbai. Call or WhatsApp +91 79 7733 8814. Open daily 10 AM to 10 PM."
+        description={`Visit Ashapura Farsan at ${contact.address}. Call or WhatsApp ${contact.phone_primary}. Open daily ${contact.hours}.`}
       />
 
       <div className="bg-cream-50 min-h-screen py-10 sm:py-16">
@@ -39,10 +41,10 @@ export const Contact: React.FC = () => {
                     Our Location
                   </h4>
                   <p className="text-sm text-brown-700 mt-0.5">
-                    {SHOP_CONFIG.fullAddress}
+                    {contact.full_address}
                   </p>
                   <a
-                    href={SHOP_CONFIG.googleMapsUrl}
+                    href={contact.google_maps_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-600 hover:underline mt-2"
@@ -64,17 +66,19 @@ export const Contact: React.FC = () => {
                   </h4>
                   <div className="flex flex-col gap-1 text-sm text-brown-700 mt-1">
                     <a
-                      href={`tel:${SHOP_CONFIG.phonePrimaryRaw}`}
+                      href={`tel:${contact.phone_primary_raw}`}
                       className="hover:text-orange-600 font-semibold transition-colors"
                     >
-                      {SHOP_CONFIG.phonePrimary} (Primary)
+                      {contact.phone_primary} (Primary)
                     </a>
-                    <a
-                      href={`tel:${SHOP_CONFIG.phoneSecondaryRaw}`}
-                      className="hover:text-orange-600 font-semibold transition-colors"
-                    >
-                      {SHOP_CONFIG.phoneSecondary} (Alternate / WhatsApp)
-                    </a>
+                    {contact.phone_secondary && contact.phone_secondary_raw && (
+                      <a
+                        href={`tel:${contact.phone_secondary_raw}`}
+                        className="hover:text-orange-600 font-semibold transition-colors"
+                      >
+                        {contact.phone_secondary} (Alternate)
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -89,7 +93,7 @@ export const Contact: React.FC = () => {
                     Business Hours
                   </h4>
                   <p className="text-sm text-brown-700 mt-0.5 font-medium">
-                    {SHOP_CONFIG.hours}
+                    {contact.hours}
                   </p>
                   <p className="text-xs text-brown-500">
                     Open 7 days a week, including all public holidays.
@@ -100,7 +104,7 @@ export const Contact: React.FC = () => {
               {/* WhatsApp Direct Button */}
               <div className="pt-2">
                 <a
-                  href={`https://wa.me/${SHOP_CONFIG.whatsappNumber}?text=${encodeURIComponent('Hello Ashapura Farsan, I have a query about your snacks.')}`}
+                  href={`https://wa.me/${contact.whatsapp_number}?text=${encodeURIComponent('Hello Ashapura Farsan, I have a query about your snacks.')}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full h-11 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-full shadow-cta flex items-center justify-center gap-2 transition-colors"
@@ -144,4 +148,5 @@ export const Contact: React.FC = () => {
     </>
   );
 };
+
 export default Contact;

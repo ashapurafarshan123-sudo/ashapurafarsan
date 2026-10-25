@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import { MapPin, Phone, Clock, ExternalLink } from 'lucide-react';
 import { SHOP_CONFIG } from '../config/shop';
 import { WhatsAppIcon } from './Icons';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 
 export const Footer: React.FC = () => {
+  const { contact } = useStoreSettings();
+
   return (
     <footer className="bg-brown-900 text-[#F7E8D3] pt-12 pb-24 md:pb-12 border-t border-[#4A2412]">
       <div className="container-custom">
@@ -34,7 +37,7 @@ export const Footer: React.FC = () => {
 
             <div className="pt-1">
               <a
-                href={`https://wa.me/${SHOP_CONFIG.whatsappNumber}`}
+                href={`https://wa.me/${contact.whatsapp_number}?text=${encodeURIComponent('Hello Ashapura Farsan, I would like to place an order.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-full text-xs font-bold transition-colors shadow-sm"
@@ -131,9 +134,9 @@ export const Footer: React.FC = () => {
             <div className="flex items-start gap-2.5 text-xs text-[#D9BFA0]">
               <MapPin size={16} className="text-amber-400 flex-shrink-0 mt-0.5" />
               <div>
-                <p>{SHOP_CONFIG.fullAddress}</p>
+                <p>{contact.full_address}</p>
                 <a
-                  href={SHOP_CONFIG.googleMapsUrl}
+                  href={contact.google_maps_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-orange-500 hover:text-white hover:underline mt-1 font-semibold"
@@ -147,19 +150,23 @@ export const Footer: React.FC = () => {
             <div className="flex items-center gap-2.5 text-xs text-[#D9BFA0]">
               <Phone size={16} className="text-amber-400 flex-shrink-0" />
               <div className="flex items-center gap-1.5 flex-wrap">
-                <a href={`tel:${SHOP_CONFIG.phonePrimaryRaw}`} className="hover:text-white hover:underline">
-                  {SHOP_CONFIG.phonePrimary}
+                <a href={`tel:${contact.phone_primary_raw}`} className="hover:text-white hover:underline">
+                  {contact.phone_primary}
                 </a>
-                <span>/</span>
-                <a href={`tel:${SHOP_CONFIG.phoneSecondaryRaw}`} className="hover:text-white hover:underline">
-                  {SHOP_CONFIG.phoneSecondary}
-                </a>
+                {contact.phone_secondary && contact.phone_secondary_raw && (
+                  <>
+                    <span>/</span>
+                    <a href={`tel:${contact.phone_secondary_raw}`} className="hover:text-white hover:underline">
+                      {contact.phone_secondary}
+                    </a>
+                  </>
+                )}
               </div>
             </div>
 
             <div className="flex items-center gap-2.5 text-xs text-[#D9BFA0]">
               <Clock size={16} className="text-amber-400 flex-shrink-0" />
-              <span>{SHOP_CONFIG.hours}</span>
+              <span>{contact.hours}</span>
             </div>
           </div>
         </div>

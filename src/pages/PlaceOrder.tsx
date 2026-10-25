@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { orderService } from '../services/orderService';
-import { SHOP_CONFIG } from '../config/shop';
 import { WhatsAppIcon } from '../components/Icons';
 import { getWhatsAppOrderUrl } from '../utils/whatsapp';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 import { SectionHeading } from '../components/SectionHeading';
 import { SEO } from '../components/SEO';
 import {
@@ -20,6 +20,7 @@ import {
 export const PlaceOrder: React.FC = () => {
   const { items, subtotal, discountAmount, finalTotal, globalDiscount, formatPrice, clearCart } = useCart();
   const { user, profile } = useAuth();
+  const { contact } = useStoreSettings();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -135,14 +136,19 @@ export const PlaceOrder: React.FC = () => {
       }
 
       // 2. Generate WhatsApp message containing verified database order number
-      const waUrl = getWhatsAppOrderUrl(items, result.total_amount, {
-        orderNumber: result.order_number,
-        name: formData.name.trim(),
-        phone: formData.phone.trim(),
-        orderType: formData.type,
-        address: formData.type === 'delivery' ? formData.address.trim() : undefined,
-        note: formData.note.trim() || undefined,
-      });
+      const waUrl = getWhatsAppOrderUrl(
+        items,
+        result.total_amount,
+        {
+          orderNumber: result.order_number,
+          name: formData.name.trim(),
+          phone: formData.phone.trim(),
+          orderType: formData.type,
+          address: formData.type === 'delivery' ? formData.address.trim() : undefined,
+          note: formData.note.trim() || undefined,
+        },
+        contact.whatsapp_number
+      );
 
       // Open WhatsApp in new tab
       window.open(waUrl, '_blank', 'noopener,noreferrer');
@@ -464,11 +470,11 @@ export const PlaceOrder: React.FC = () => {
                   <div className="pt-2 text-center text-xs text-brown-500">
                     Prefer ordering on phone call?{' '}
                     <a
-                      href={`tel:${SHOP_CONFIG.phonePrimaryRaw}`}
+                      href={`tel:${contact.phone_primary_raw}`}
                       className="text-orange-600 font-bold hover:underline inline-flex items-center gap-1"
                     >
                       <Phone size={11} />
-                      <span>Call {SHOP_CONFIG.phonePrimary}</span>
+                      <span>Call {contact.phone_primary}</span>
                     </a>
                   </div>
                 </form>

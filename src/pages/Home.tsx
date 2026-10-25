@@ -100,7 +100,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* 5.5 Hero Products Signature Creations (Scroll Split 3D Cards) */}
-      <HeroProductsSection />
+      <HeroProductsSection products={products} />
 
       {/* 6. Best Seller Section ("Our Range of Farsan") */}
       <section className="relative py-10 sm:py-14 bg-peach-100 overflow-hidden">

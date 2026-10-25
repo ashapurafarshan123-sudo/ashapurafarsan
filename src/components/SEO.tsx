@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { SHOP_CONFIG } from '../config/shop';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 
 interface SEOProps {
   title?: string;
@@ -15,6 +16,7 @@ export const SEO: React.FC<SEOProps> = ({
   canonical,
   ogImage = "/images/hero-farsan.webp",
 }) => {
+  const { contact } = useStoreSettings();
   const fullTitle = title.includes("Ashapura") ? title : `${title} | ${SHOP_CONFIG.name} Farsan`;
 
   const structuredData = {
@@ -22,7 +24,7 @@ export const SEO: React.FC<SEOProps> = ({
     "@type": "FastFoodRestaurant",
     "name": `${SHOP_CONFIG.name} Farsan`,
     "image": "https://ashapurafarsan.com/images/hero-farsan.webp",
-    "telephone": [SHOP_CONFIG.phonePrimaryRaw, SHOP_CONFIG.phoneSecondaryRaw],
+    "telephone": [contact.phone_primary_raw, contact.phone_secondary_raw || contact.phone_primary_raw],
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Shop No 15, Shantipark",

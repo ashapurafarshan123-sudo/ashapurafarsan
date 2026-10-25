@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import { StoreSettingsProvider } from './context/StoreSettingsContext';
+import { TopBar } from './components/TopBar';
 import { Header } from './components/Header';
 import { CartDrawer } from './components/CartDrawer';
 import { StickyMobileBar } from './components/StickyMobileBar';
@@ -73,8 +75,13 @@ const AppShell: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-cream-50 text-brown-900 selection:bg-orange-500 selection:text-white">
-      {/* Show storefront header on public & account routes */}
-      {!isAdminPath && <Header />}
+      {/* Show storefront TopBar & Header on public & account routes */}
+      {!isAdminPath && (
+        <>
+          <TopBar />
+          <Header />
+        </>
+      )}
 
       {/* Main Content Area */}
       <main className="flex-1">
@@ -176,12 +183,14 @@ export const App: React.FC = () => {
   return (
     <HelmetProvider>
       <AuthProvider>
-        <CartProvider>
-          <BrowserRouter>
-            <ScrollToTop />
-            <AppShell />
-          </BrowserRouter>
-        </CartProvider>
+        <StoreSettingsProvider>
+          <CartProvider>
+            <BrowserRouter>
+              <ScrollToTop />
+              <AppShell />
+            </BrowserRouter>
+          </CartProvider>
+        </StoreSettingsProvider>
       </AuthProvider>
     </HelmetProvider>
   );

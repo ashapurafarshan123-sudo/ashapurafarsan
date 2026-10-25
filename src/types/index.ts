@@ -144,6 +144,7 @@ export interface StoreSettings {
   };
   contact?: {
     phone_primary: string;
+    phone_secondary?: string;
     whatsapp_number: string;
     address: string;
     hours: string;

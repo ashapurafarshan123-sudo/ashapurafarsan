@@ -4,11 +4,12 @@ import { orderService } from '../../services/orderService';
 import { OrderRecord } from '../../types';
 import { useCart } from '../../context/CartContext';
 import { ArrowLeft, MapPin, CheckCircle2, AlertCircle, Phone } from 'lucide-react';
-import { SHOP_CONFIG } from '../../config/shop';
+import { useStoreSettings } from '../../context/StoreSettingsContext';
 
 export const OrderDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { formatPrice } = useCart();
+  const { contact } = useStoreSettings();
   const [order, setOrder] = useState<OrderRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -230,11 +231,11 @@ export const OrderDetail: React.FC = () => {
           </p>
         </div>
         <a
-          href={`tel:${SHOP_CONFIG.phonePrimaryRaw}`}
+          href={`tel:${contact.phone_primary_raw}`}
           className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-full shadow-cta transition-colors shrink-0"
         >
           <Phone size={12} />
-          <span>Call Shop ({SHOP_CONFIG.phonePrimary})</span>
+          <span>Call Shop ({contact.phone_primary})</span>
         </a>
       </div>
     </div>

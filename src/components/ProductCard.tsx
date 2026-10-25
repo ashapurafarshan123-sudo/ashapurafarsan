@@ -10,11 +10,36 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [selectedWeight, setSelectedWeight] = useState<ProductWeight>('250g');
-  const { items, addToCart, formatPrice } = useCart();
+  const { items, addToCart, formatPrice, globalDiscount } = useCart();
 
   const currentPrice = product.prices[selectedWeight] || 0;
   const currentItemId = `${product.id}-${selectedWeight}`;
   const isInCart = items.some((item) => item.id === currentItemId);
+
+  // Compute Active Global Discount for Card Display
+  let discountedPrice = currentPrice;
+  let hasDiscount = false;
+  let discountLabel = '';
+  if (globalDiscount && globalDiscount.is_active && currentPrice > 0) {
+    const now = new Date();
+    const isStarted = !globalDiscount.start_date || new Date(globalDiscount.start_date) <= now;
+    const isNotExpired = !globalDiscount.end_date || new Date(globalDiscount.end_date) >= now;
+
+    if (isStarted && isNotExpired) {
+      if (globalDiscount.type === 'percentage') {
+        const pct = Math.min(100, Math.max(0, globalDiscount.value));
+        if (pct > 0) {
+          discountedPrice = Math.round(currentPrice * (1 - pct / 100));
+          hasDiscount = true;
+          discountLabel = `${pct}% OFF`;
+        }
+      } else if (globalDiscount.value > 0) {
+        discountedPrice = Math.max(0, currentPrice - globalDiscount.value);
+        hasDiscount = true;
+        discountLabel = `₹${globalDiscount.value} OFF`;
+      }
+    }
+  }
 
   const handleAdd = () => {
     addToCart(product, selectedWeight);
@@ -31,11 +56,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <div className="bg-white border border-line rounded-card shadow-card hover:shadow-card-hover transition-all duration-200 p-3.5 sm:p-4 flex flex-col justify-between h-full group">
-      {/* Photo Area with Peach Halo Backdrop & Bestseller Tag */}
+      {/* Photo Area with Peach Halo Backdrop & Bestseller / Discount Tag */}
       <div className="relative w-full h-[140px] sm:h-[150px] bg-peach-halo/60 rounded-lg flex items-center justify-center overflow-hidden mb-3.5">
         {product.isActive === false ? (
           <span className="absolute top-2 left-2 z-10 px-2 py-0.5 bg-stone-800 text-white text-[10px] font-bold rounded tracking-wide shadow-sm">
             Out of Stock
+          </span>
+        ) : hasDiscount ? (
+          <span className="absolute top-2 left-2 z-10 px-2 py-0.5 bg-red-600 text-white text-[10px] font-bold rounded tracking-wide shadow-sm animate-pulse">
+            {discountLabel}
           </span>
         ) : product.bestseller ? (
           <span className="absolute top-2 left-2 z-10 px-2 py-0.5 bg-[#FDE3C6] text-orange-600 text-[10px] font-bold rounded tracking-wide shadow-sm">
@@ -96,9 +125,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="mt-auto pt-2 flex items-center justify-between border-t border-line/60">
           <div className="flex flex-col">
             <span className="text-[10px] text-brown-500 font-medium">Price</span>
-            <span className="text-[17px] font-semibold text-orange-600 font-sans leading-none">
-              {formatPrice(currentPrice)}
-            </span>
+            {hasDiscount ? (
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-[17px] font-semibold text-orange-600 font-sans leading-none">
+                  {formatPrice(discountedPrice)}
+                </span>
+                <span className="text-[11px] text-brown-400 line-through font-sans">
+                  {formatPrice(currentPrice)}
+                </span>
+              </div>
+            ) : (
+              <span className="text-[17px] font-semibold text-orange-600 font-sans leading-none">
+                {formatPrice(currentPrice)}
+              </span>
+            )}
           </div>
 
           <button

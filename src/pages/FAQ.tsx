@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SectionHeading } from '../components/SectionHeading';
 import { SEO } from '../components/SEO';
 import { ChevronDown, HelpCircle, Phone } from 'lucide-react';
-import { SHOP_CONFIG } from '../config/shop';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 
 interface FAQItem {
   question: string;
@@ -11,6 +11,7 @@ interface FAQItem {
 }
 
 export const FAQ: React.FC = () => {
+  const { contact } = useStoreSettings();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs: FAQItem[] = [
@@ -124,11 +125,11 @@ export const FAQ: React.FC = () => {
             </p>
             <div className="pt-2">
               <a
-                href={`tel:${SHOP_CONFIG.phonePrimaryRaw}`}
+                href={`tel:${contact.phone_primary_raw}`}
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-full shadow-cta transition-colors"
               >
                 <Phone size={14} />
-                <span>Call {SHOP_CONFIG.phonePrimary}</span>
+                <span>Call {contact.phone_primary}</span>
               </a>
             </div>
           </div>

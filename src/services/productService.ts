@@ -46,8 +46,7 @@ export const productService = {
             price,
             is_active
           )
-        `)
-        .eq('is_active', true);
+        `);
 
       if (error || !dbProducts || dbProducts.length === 0) {
         return STATIC_PRODUCTS;
@@ -79,6 +78,7 @@ export const productService = {
           description: p.description || '',
           image: p.image,
           bestseller: Boolean(p.bestseller),
+          isActive: Boolean(p.is_active),
           prices,
         };
       });
@@ -166,33 +166,50 @@ export const productService = {
       const productId = payload.id || `prod-${payload.slug}`;
 
       // Upsert product
-      const { error: prodErr } = await supabase.from('products').upsert({
-        id: productId,
-        slug: payload.slug,
-        name: payload.name,
-        category_slug: payload.categorySlug,
-        description: payload.description,
-        image: payload.image,
-        bestseller: payload.bestseller,
-        is_active: payload.isActive ?? true,
-      });
+      const { data: prodData, error: prodErr } = await supabase
+        .from('products')
+        .upsert({
+          id: productId,
+          slug: payload.slug,
+          name: payload.name,
+          category_slug: payload.categorySlug,
+          description: payload.description,
+          image: payload.image,
+          bestseller: payload.bestseller,
+          is_active: payload.isActive ?? true,
+          updated_at: new Date().toISOString(),
+        })
+        .select();
 
       if (prodErr) return { success: false, error: prodErr.message };
+      if (!prodData || prodData.length === 0) {
+        return {
+          success: false,
+          error: 'Save failed: Admin session expired or unauthorized. Please re-login at /admin/login.',
+        };
+      }
 
       // Upsert variants
       const weights: ProductWeight[] = ['250g', '500g', '750g', '1kg'];
       for (const w of weights) {
         const price = payload.prices[w];
         if (price !== undefined && price > 0) {
-          await supabase.from('product_variants').upsert(
-            {
-              product_id: productId,
-              size_label: w,
-              price: Number(price),
-              is_active: true,
-            },
-            { onConflict: 'product_id,size_label' }
-          );
+          const { error: vErr } = await supabase
+            .from('product_variants')
+            .upsert(
+              {
+                product_id: productId,
+                size_label: w,
+                price: Number(price),
+                is_active: true,
+              },
+              { onConflict: 'product_id,size_label' }
+            )
+            .select();
+
+          if (vErr) {
+            console.warn(`Failed to upsert variant ${w}:`, vErr.message);
+          }
         }
       }
 
@@ -209,12 +226,16 @@ export const productService = {
     if (!isSupabaseConfigured()) return true;
 
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('products')
-        .update({ is_active: !currentStatus })
-        .eq('id', productId);
+        .update({
+          is_active: !currentStatus,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', productId)
+        .select();
 
-      return !error;
+      return !error && Boolean(data && data.length > 0);
     } catch {
       return false;
     }

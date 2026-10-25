@@ -2,18 +2,39 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Flame, Wheat, Sparkles, ArrowRight } from 'lucide-react';
 import { ScrollSplitCard, ScrollSplitCardItem } from './ScrollSplitCard';
+import { Product } from '../types';
 
-export const HeroProductsSection: React.FC = () => {
+interface HeroProductsSectionProps {
+  products?: Product[];
+}
+
+export const HeroProductsSection: React.FC<HeroProductsSectionProps> = ({ products = [] }) => {
+  // Find live product overrides if available from database
+  const kachoriProd = products.find(
+    (p) => p.slug.includes('kachori') || p.name.toLowerCase().includes('kachori')
+  );
+  const multigrainProd = products.find(
+    (p) => p.slug.includes('multigrain') || p.name.toLowerCase().includes('multigrain')
+  );
+  const khattaProd = products.find(
+    (p) => p.slug.includes('khatta') || p.name.toLowerCase().includes('khatta')
+  );
+
+  const kachoriPrice = kachoriProd?.prices['250g'] ? `₹${kachoriProd.prices['250g']} / 250g` : '₹110 / 250g';
+  const multigrainPrice = multigrainProd?.prices['250g'] ? `₹${multigrainProd.prices['250g']} / 250g` : '₹120 / 250g';
+  const khattaPrice = khattaProd?.prices['250g'] ? `₹${khattaProd.prices['250g']} / 250g` : '₹95 / 250g';
+
   const heroCards: ScrollSplitCardItem[] = [
     {
-      title: 'Ashapura Spcl Kachori',
+      title: kachoriProd?.name || 'Ashapura Spcl Kachori',
       subtitle: 'Crisp & Golden',
       description:
+        kachoriProd?.description ||
         'Flaky, golden-fried artisanal kachoris filled with spiced crushed moong dal, roasted hing, and black pepper.',
       bgColor: '#4A1521', // Royal Crimson Burgundy
       textColor: '#FFFFFF',
-      price: '₹110 / 250g',
-      image: '/images/products/hero-kachori.webp',
+      price: kachoriPrice,
+      image: kachoriProd?.image || '/images/products/hero-kachori.webp',
       icon: <Flame size={20} className="text-[#F5C27A]" strokeWidth={2} />,
       action: (
         <Link
@@ -26,14 +47,15 @@ export const HeroProductsSection: React.FC = () => {
       ),
     },
     {
-      title: 'Ashapura Spcl Multigrain Chivda',
+      title: multigrainProd?.name || 'Ashapura Spcl Multigrain Chivda',
       subtitle: 'Zero-Oil Roasted',
       description:
+        multigrainProd?.description ||
         'Signature healthy crunch of roasted oats, crisp ragi flakes, bajra puffs, and golden cashews tossed with rock salt.',
       bgColor: '#1E3F2B', // Forest Emerald Green
       textColor: '#FFFFFF',
-      price: '₹120 / 250g',
-      image: '/images/products/hero-multigrain-chivda.webp',
+      price: multigrainPrice,
+      image: multigrainProd?.image || '/images/products/hero-multigrain-chivda.webp',
       icon: <Wheat size={20} className="text-[#96E0A8]" strokeWidth={2} />,
       action: (
         <Link
@@ -46,14 +68,15 @@ export const HeroProductsSection: React.FC = () => {
       ),
     },
     {
-      title: 'Ashapura Spcl Khatta Meetha Mix',
+      title: khattaProd?.name || 'Ashapura Spcl Khatta Meetha Mix',
       subtitle: 'Signature Blend',
       description:
+        khattaProd?.description ||
         'A legendary Mumbai medley of crisp golden sev, sweet raisins, crunchy peanuts, and aromatic candied fennel.',
       bgColor: '#96591C', // Warm Spiced Mustard Amber
       textColor: '#FFFFFF',
-      price: '₹95 / 250g',
-      image: '/images/products/hero-khatta-meetha.webp',
+      price: khattaPrice,
+      image: khattaProd?.image || '/images/products/hero-khatta-meetha.webp',
       icon: <Sparkles size={20} className="text-[#FDE3A7]" strokeWidth={2} />,
       action: (
         <Link

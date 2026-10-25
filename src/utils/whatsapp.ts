@@ -78,8 +78,10 @@ export function buildWhatsAppOrderMessage(
 export function getWhatsAppOrderUrl(
   items: CartItem[],
   subtotal: number,
-  details?: WhatsAppOrderDetails
+  details?: WhatsAppOrderDetails,
+  overrideNumber?: string
 ): string {
   const message = buildWhatsAppOrderMessage(items, subtotal, details);
-  return `https://wa.me/${SHOP_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+  const targetNumber = overrideNumber || SHOP_CONFIG.whatsappNumber;
+  return `https://wa.me/${targetNumber}?text=${encodeURIComponent(message)}`;
 }

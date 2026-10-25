@@ -1,33 +1,35 @@
 import React from 'react';
 import { Clock, Sparkles } from 'lucide-react';
 import { WhatsAppIcon, RupeeIcon } from './Icons';
-import { SHOP_CONFIG } from '../config/shop';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 
 export const FeatureStrip: React.FC = () => {
+  const { contact } = useStoreSettings();
+
   const features = [
     {
       icon: Clock,
       title: "Open Daily",
-      subtitle: "10:00 AM – 10:00 PM",
+      subtitle: contact.hours,
       link: null,
     },
     {
       icon: Sparkles,
       title: "Fresh Every Day",
-      subtitle: "Made in-house, no preservatives",
+      subtitle: "Made in-house, pure oil",
       link: null,
     },
     {
       icon: RupeeIcon,
-      title: "Affordable Prices",
-      subtitle: "Great quality, great value",
+      title: "Authentic Taste",
+      subtitle: "Gujarati farsan & namkeen",
       link: null,
     },
     {
       icon: WhatsAppIcon,
       title: "WhatsApp Orders",
       subtitle: "Fast, easy, direct to shop",
-      link: `https://wa.me/${SHOP_CONFIG.whatsappNumber}?text=${encodeURIComponent('Hello Ashapura Farsan, I would like to place an order.')}`,
+      link: `https://wa.me/${contact.whatsapp_number}?text=${encodeURIComponent('Hello Ashapura Farsan, I would like to place an order.')}`,
     },
   ];
 
@@ -64,16 +66,17 @@ export const FeatureStrip: React.FC = () => {
 
             return item.link ? (
               <a
-                key={index}
+                key={item.title}
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-full flex items-center hover:opacity-85 transition-opacity focus:outline-none focus-visible:ring-1 focus-visible:ring-orange-600 rounded flex-shrink-0 md:flex-shrink"
+                className="hover:opacity-90 transition-opacity block h-full"
+                aria-label={item.title}
               >
                 {content}
               </a>
             ) : (
-              <div key={index} className="h-full flex items-center flex-shrink-0 md:flex-shrink">
+              <div key={item.title} className="h-full">
                 {content}
               </div>
             );
@@ -83,4 +86,3 @@ export const FeatureStrip: React.FC = () => {
     </section>
   );
 };
-

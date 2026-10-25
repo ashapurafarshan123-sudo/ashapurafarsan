@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { adminService } from '../../services/adminService';
 import { OrderRecord, OrderStatus, PaymentStatus } from '../../types';
 import { useCart } from '../../context/CartContext';
+import { useStoreSettings } from '../../context/StoreSettingsContext';
 import { SHOP_CONFIG } from '../../config/shop';
 import {
   Search,
@@ -19,6 +20,7 @@ import {
 
 export const AdminWebsiteOrders: React.FC = () => {
   const { formatPrice } = useCart();
+  const { contact } = useStoreSettings();
   const [orders, setOrders] = useState<OrderRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -181,8 +183,8 @@ export const AdminWebsiteOrders: React.FC = () => {
           <div className="border-b-2 border-black pb-4 mb-4 flex justify-between items-start">
             <div>
               <h1 className="text-2xl font-bold uppercase">{SHOP_CONFIG.name}</h1>
-              <p className="text-xs">{SHOP_CONFIG.address}</p>
-              <p className="text-xs">Tel: {SHOP_CONFIG.phonePrimary} | WhatsApp: +{SHOP_CONFIG.whatsappNumber}</p>
+              <p className="text-xs">{contact.address}</p>
+              <p className="text-xs">Tel: {contact.phone_primary} | WhatsApp: +{contact.whatsapp_number}</p>
             </div>
             <div className="text-right">
               <h2 className="text-xl font-bold">ORDER INVOICE</h2>

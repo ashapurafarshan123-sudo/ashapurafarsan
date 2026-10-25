@@ -50,11 +50,11 @@ export const AdminSettings: React.FC = () => {
     setSaving(true);
     setStatusMsg(null);
     try {
-      const ok = await adminService.updateStoreSetting('contact', settings.contact);
-      if (ok) {
+      const res = await adminService.updateStoreSetting('contact', settings.contact);
+      if (res.success) {
         setStatusMsg({ type: 'success', text: 'Store details and contact numbers updated successfully in Supabase!' });
       } else {
-        setStatusMsg({ type: 'error', text: 'Failed to update store contact settings.' });
+        setStatusMsg({ type: 'error', text: res.error || 'Failed to update store contact settings.' });
       }
     } catch {
       setStatusMsg({ type: 'error', text: 'An unexpected error occurred.' });
@@ -68,11 +68,11 @@ export const AdminSettings: React.FC = () => {
     setSaving(true);
     setStatusMsg(null);
     try {
-      const ok = await adminService.updateStoreSetting('operational', settings.operational);
-      if (ok) {
+      const res = await adminService.updateStoreSetting('operational', settings.operational);
+      if (res.success) {
         setStatusMsg({ type: 'success', text: 'Operational hours and announcement banner saved!' });
       } else {
-        setStatusMsg({ type: 'error', text: 'Failed to update operational settings.' });
+        setStatusMsg({ type: 'error', text: res.error || 'Failed to update operational settings.' });
       }
     } catch {
       setStatusMsg({ type: 'error', text: 'An unexpected error occurred.' });
@@ -86,11 +86,11 @@ export const AdminSettings: React.FC = () => {
     setSaving(true);
     setStatusMsg(null);
     try {
-      const ok = await adminService.updateStoreSetting('shipping', settings.shipping);
-      if (ok) {
+      const res = await adminService.updateStoreSetting('shipping', settings.shipping);
+      if (res.success) {
         setStatusMsg({ type: 'success', text: 'Delivery and coverage rules saved successfully!' });
       } else {
-        setStatusMsg({ type: 'error', text: 'Failed to update delivery settings.' });
+        setStatusMsg({ type: 'error', text: res.error || 'Failed to update delivery settings.' });
       }
     } catch {
       setStatusMsg({ type: 'error', text: 'An unexpected error occurred.' });

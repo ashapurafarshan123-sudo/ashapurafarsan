@@ -1,11 +1,12 @@
 import React from 'react';
 import { SectionHeading } from '../components/SectionHeading';
 import { SEO } from '../components/SEO';
-import { SHOP_CONFIG } from '../config/shop';
 import { Sparkles, Heart, Clock, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 
 export const About: React.FC = () => {
+  const { contact } = useStoreSettings();
   return (
     <>
       <SEO
@@ -29,7 +30,7 @@ export const About: React.FC = () => {
             </div>
 
             <p>
-              Located at <strong>{SHOP_CONFIG.address}</strong>, Ashapura Farsan has been a beloved neighborhood landmark for families seeking genuine, unadulterated Gujarati taste. Our journey began with a simple devotion: to craft snacks the way they were traditionally prepared in Gujarati homes — with pure ingredients, hand-pounded spices, and zero artificial preservatives.
+              Located at <strong>{contact.address}</strong>, Ashapura Farsan has been a beloved neighborhood landmark for families seeking genuine, unadulterated Gujarati taste. Our journey began with a simple devotion: to craft snacks the way they were traditionally prepared in Gujarati homes — with pure ingredients, hand-pounded spices, and zero artificial preservatives.
             </p>
 
             <p>

@@ -385,18 +385,29 @@ export const adminService = {
     }
   },
 
-  async updateStoreSetting(key: 'shipping' | 'contact' | 'operational' | 'global_discount', value: unknown): Promise<boolean> {
-    if (!isSupabaseConfigured()) return true;
+  async updateStoreSetting(key: 'shipping' | 'contact' | 'operational' | 'global_discount', value: unknown): Promise<{ success: boolean; error?: string }> {
+    if (!isSupabaseConfigured()) return { success: true };
 
     try {
-      const { error } = await supabase.from('store_settings').upsert({
-        key,
-        value,
-        updated_at: new Date().toISOString(),
-      });
-      return !error;
-    } catch {
-      return false;
+      const { data, error } = await supabase
+        .from('store_settings')
+        .upsert({
+          key,
+          value,
+          updated_at: new Date().toISOString(),
+        })
+        .select();
+
+      if (error) return { success: false, error: error.message };
+      if (!data || data.length === 0) {
+        return {
+          success: false,
+          error: 'Save failed: Admin session expired or unauthorized. Please re-login at /admin/login.',
+        };
+      }
+      return { success: true };
+    } catch (err: unknown) {
+      return { success: false, error: (err as Error)?.message || 'Failed to update store settings' };
     }
   },
 
@@ -454,13 +465,22 @@ export const adminService = {
     }
 
     try {
-      const { error } = await supabase.from('store_settings').upsert({
-        key: 'global_discount',
-        value: config,
-        updated_at: new Date().toISOString(),
-      });
+      const { data, error } = await supabase
+        .from('store_settings')
+        .upsert({
+          key: 'global_discount',
+          value: config,
+          updated_at: new Date().toISOString(),
+        })
+        .select();
 
       if (error) return { success: false, error: error.message };
+      if (!data || data.length === 0) {
+        return {
+          success: false,
+          error: 'Save failed: Admin session expired or unauthorized. Please re-login at /admin/login.',
+        };
+      }
 
       return { success: true };
     } catch (err: unknown) {
