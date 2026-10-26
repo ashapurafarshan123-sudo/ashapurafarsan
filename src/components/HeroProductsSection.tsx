@@ -11,13 +11,13 @@ interface HeroProductsSectionProps {
 export const HeroProductsSection: React.FC<HeroProductsSectionProps> = ({ products = [] }) => {
   // Find live product overrides if available from database
   const kachoriProd = products.find(
-    (p) => p.slug.includes('kachori') || p.name.toLowerCase().includes('kachori')
+    (p) => p.id === 'maida-kachori' || p.id === 'hero-ashapura-spcl-kachori' || p.slug.includes('kachori') || p.name.toLowerCase().includes('kachori')
   );
   const multigrainProd = products.find(
-    (p) => p.slug.includes('multigrain') || p.name.toLowerCase().includes('multigrain')
+    (p) => p.id === 'diet-chivda-multigran-chivda' || p.id === 'hero-ashapura-spcl-multigrain-chivda' || p.slug.includes('multigrain') || p.slug.includes('multigran') || p.name.toLowerCase().includes('multigrain')
   );
   const khattaProd = products.find(
-    (p) => p.slug.includes('khatta') || p.name.toLowerCase().includes('khatta')
+    (p) => p.id === 'hero-ashapura-spcl-khatta-meetha-mix' || p.slug.includes('khatta') || p.name.toLowerCase().includes('khatta')
   );
 
   const kachoriPrice = kachoriProd?.prices['250g'] ? `₹${kachoriProd.prices['250g']} / 250g` : '₹110 / 250g';
@@ -36,7 +36,11 @@ export const HeroProductsSection: React.FC<HeroProductsSectionProps> = ({ produc
       price: kachoriPrice,
       image: kachoriProd?.image || '/images/products/hero-kachori.webp',
       icon: <Flame size={20} className="text-[#F5C27A]" strokeWidth={2} />,
-      action: (
+      action: kachoriProd?.isActive === false ? (
+        <span className="inline-flex items-center justify-center px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold font-sans bg-stone-300 text-stone-700 select-none shadow-sm">
+          Out of Stock
+        </span>
+      ) : (
         <Link
           to="/shop?q=kachori"
           className="inline-flex items-center justify-center gap-1 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium font-sans bg-white text-[#4A1521] hover:bg-[#FDEBD6] transition-all transform active:scale-95 shadow-sm"
@@ -57,7 +61,11 @@ export const HeroProductsSection: React.FC<HeroProductsSectionProps> = ({ produc
       price: multigrainPrice,
       image: multigrainProd?.image || '/images/products/hero-multigrain-chivda.webp',
       icon: <Wheat size={20} className="text-[#96E0A8]" strokeWidth={2} />,
-      action: (
+      action: multigrainProd?.isActive === false ? (
+        <span className="inline-flex items-center justify-center px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold font-sans bg-stone-300 text-stone-700 select-none shadow-sm">
+          Out of Stock
+        </span>
+      ) : (
         <Link
           to="/shop?q=multigrain"
           className="inline-flex items-center justify-center gap-1 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium font-sans bg-white text-[#1E3F2B] hover:bg-[#E3F5E7] transition-all transform active:scale-95 shadow-sm"
@@ -78,7 +86,11 @@ export const HeroProductsSection: React.FC<HeroProductsSectionProps> = ({ produc
       price: khattaPrice,
       image: khattaProd?.image || '/images/products/hero-khatta-meetha.webp',
       icon: <Sparkles size={20} className="text-[#FDE3A7]" strokeWidth={2} />,
-      action: (
+      action: khattaProd?.isActive === false ? (
+        <span className="inline-flex items-center justify-center px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold font-sans bg-stone-300 text-stone-700 select-none shadow-sm">
+          Out of Stock
+        </span>
+      ) : (
         <Link
           to="/shop?q=khatta"
           className="inline-flex items-center justify-center gap-1 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium font-sans bg-white text-[#96591C] hover:bg-[#FFF3DA] transition-all transform active:scale-95 shadow-sm"

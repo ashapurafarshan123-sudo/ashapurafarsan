@@ -123,8 +123,9 @@ export const AdminProducts: React.FC = () => {
         prev.map((item) => (item.id === p.id ? { ...item, isActive: nextStatus } : item))
       );
       showToast('success', `${p.name} is now marked ${nextStatus ? 'In Stock' : 'Out of Stock'}.`);
+      await loadProducts();
     } else {
-      showToast('error', `Failed to update stock status for ${p.name}.`);
+      showToast('error', `Failed to update stock status in database for ${p.name}.`);
     }
   };
 
@@ -180,11 +181,18 @@ export const AdminProducts: React.FC = () => {
         return;
       }
 
+      if (res.product) {
+        const savedProd = res.product;
+        setProducts((prev) =>
+          prev.map((item) => (item.id === savedProd.id ? savedProd : item))
+        );
+      }
+
       setShowEditModal(false);
-      showToast('success', `Product "${formData.name}" saved successfully to database!`);
+      showToast('success', `Product "${formData.name}" saved successfully and verified in database!`);
       await loadProducts();
-    } catch {
-      setModalError('An unexpected error occurred while saving.');
+    } catch (err: unknown) {
+      setModalError((err as Error)?.message || 'An unexpected error occurred while saving.');
     } finally {
       setIsSaving(false);
     }

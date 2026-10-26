@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Product, ProductWeight, CartItem, GlobalDiscountConfig } from '../types';
 import { adminService } from '../services/adminService';
+import { productService } from '../services/productService';
 
 interface CartContextType {
   items: CartItem[];
@@ -19,6 +20,7 @@ interface CartContextType {
   openDrawer: () => void;
   closeDrawer: () => void;
   refreshDiscount: () => Promise<void>;
+  hasOutOfStockItems: boolean;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -38,6 +40,39 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [globalDiscount, setGlobalDiscount] = useState<GlobalDiscountConfig | null>(null);
+
+  // Synchronize cart items with live database prices and active stock states
+  useEffect(() => {
+    productService.getActiveProducts().then((liveProducts) => {
+      if (!liveProducts || liveProducts.length === 0) return;
+      setItems((prevItems) => {
+        let changed = false;
+        const updated = prevItems.map((item) => {
+          const liveProd = liveProducts.find(
+            (p) => p.id === item.product.id || p.slug === item.product.slug
+          );
+          if (!liveProd) return item;
+          const livePrice = liveProd.prices[item.weight] || item.price;
+          const liveActive = liveProd.isActive ?? true;
+
+          if (livePrice !== item.price || liveActive !== item.product.isActive) {
+            changed = true;
+            return {
+              ...item,
+              price: livePrice,
+              product: {
+                ...item.product,
+                prices: liveProd.prices,
+                isActive: liveActive,
+              },
+            };
+          }
+          return item;
+        });
+        return changed ? updated : prevItems;
+      });
+    });
+  }, []);
 
   const loadDiscount = useCallback(async () => {
     try {
@@ -61,8 +96,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [items]);
 
   const addToCart = (product: Product, weight: ProductWeight, quantity: number = 1) => {
-    const itemId = `${product.id}-${weight}`;
+    // Prevent adding out-of-stock products
+    if (product.isActive === false) {
+      return;
+    }
     const pricePerUnit = product.prices[weight] || 0;
+    if (pricePerUnit <= 0) {
+      return;
+    }
+
+    const itemId = `${product.id}-${weight}`;
 
     setItems((prevItems) => {
       const existingIndex = prevItems.findIndex((item) => item.id === itemId);
@@ -141,6 +184,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }).format(amount);
   };
 
+  const hasOutOfStockItems = items.some((item) => item.product.isActive === false);
+
   return (
     <CartContext.Provider
       value={{
@@ -160,6 +205,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         openDrawer: () => setIsDrawerOpen(true),
         closeDrawer: () => setIsDrawerOpen(false),
         refreshDiscount: loadDiscount,
+        hasOutOfStockItems,
       }}
     >
       {children}

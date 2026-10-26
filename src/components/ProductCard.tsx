@@ -41,18 +41,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }
   }
 
-  const handleAdd = () => {
-    addToCart(product, selectedWeight);
-  };
-
   const weights: { key: ProductWeight; label: string }[] = [
     { key: '250g', label: '250 g' },
-    { key: '500g', label: '500 g' },
+    ...(product.prices['500g'] && product.prices['500g'] > 0
+      ? [{ key: '500g' as ProductWeight, label: '500 g' }]
+      : []),
     ...(product.prices['750g'] && product.prices['750g'] > 0
       ? [{ key: '750g' as ProductWeight, label: '750 g' }]
       : []),
-    { key: '1kg', label: '1 kg' },
+    ...(product.prices['1kg'] && product.prices['1kg'] > 0
+      ? [{ key: '1kg' as ProductWeight, label: '1 kg' }]
+      : []),
   ];
+
+  const handleAdd = () => {
+    if (product.isActive === false) return;
+    addToCart(product, selectedWeight);
+  };
 
   return (
     <div className="bg-white border border-line rounded-card shadow-card hover:shadow-card-hover transition-all duration-200 p-3.5 sm:p-4 flex flex-col justify-between h-full group">

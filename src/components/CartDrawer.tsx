@@ -20,6 +20,7 @@ export const CartDrawer: React.FC = () => {
     finalTotal,
     globalDiscount,
     formatPrice,
+    hasOutOfStockItems,
   } = useCart();
 
   const navigate = useNavigate();
@@ -141,9 +142,16 @@ export const CartDrawer: React.FC = () => {
 
                       {/* Product details */}
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-serif font-semibold text-brown-900 text-sm truncate">
-                          {item.product.name}
-                        </h4>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <h4 className="font-serif font-semibold text-brown-900 text-sm truncate">
+                            {item.product.name}
+                          </h4>
+                          {item.product.isActive === false && (
+                            <span className="text-[10px] font-bold text-white bg-stone-800 px-1.5 py-0.5 rounded">
+                              Out of Stock
+                            </span>
+                          )}
+                        </div>
                         <div className="flex items-center gap-2 mt-0.5">
                           <span className="text-[11px] font-semibold text-orange-600 bg-orange-500/10 px-1.5 py-0.5 rounded">
                             {item.weight}
@@ -235,11 +243,21 @@ export const CartDrawer: React.FC = () => {
                     Taxes included. Delivery charges (if applicable) confirmed directly by shop on WhatsApp.
                   </p>
 
+                  {hasOutOfStockItems && (
+                    <div className="bg-red-50 border border-red-200 text-red-700 text-xs px-3 py-2 rounded-lg font-medium">
+                      One or more items in your cart is currently Out of Stock. Please remove them to proceed.
+                    </div>
+                  )}
+
                   <a
-                    href={getWhatsAppOrderUrl(items, finalTotal)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => {
+                    href={hasOutOfStockItems ? '#' : getWhatsAppOrderUrl(items, finalTotal)}
+                    target={hasOutOfStockItems ? undefined : '_blank'}
+                    rel={hasOutOfStockItems ? undefined : 'noopener noreferrer'}
+                    onClick={(e) => {
+                      if (hasOutOfStockItems) {
+                        e.preventDefault();
+                        return;
+                      }
                       // Non-blocking order intent capture in Supabase
                       orderService.createOrder({
                         customer_name: 'WhatsApp Customer (Direct Chat)',
@@ -257,7 +275,11 @@ export const CartDrawer: React.FC = () => {
                         })),
                       }).catch(() => {});
                     }}
-                    className="w-full h-11 bg-[#25D366] hover:bg-[#20bd5a] active:bg-[#1da850] text-white font-bold text-sm rounded-full shadow-cta flex items-center justify-center gap-2 transition-all active:translate-y-[1px]"
+                    className={`w-full h-11 text-white font-bold text-sm rounded-full shadow-cta flex items-center justify-center gap-2 transition-all ${
+                      hasOutOfStockItems
+                        ? 'bg-stone-400 cursor-not-allowed opacity-60'
+                        : 'bg-[#25D366] hover:bg-[#20bd5a] active:bg-[#1da850] active:translate-y-[1px]'
+                    }`}
                   >
                     <WhatsAppIcon size={18} className="text-white" />
                     <span>Order on WhatsApp (Direct to Shop)</span>
@@ -266,7 +288,12 @@ export const CartDrawer: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleCheckout}
-                    className="w-full h-10 bg-white hover:bg-cream-50 text-brown-900 border border-line font-semibold text-xs rounded-full flex items-center justify-center gap-2 transition-all active:translate-y-[1px]"
+                    disabled={hasOutOfStockItems}
+                    className={`w-full h-10 border font-semibold text-xs rounded-full flex items-center justify-center gap-2 transition-all ${
+                      hasOutOfStockItems
+                        ? 'bg-stone-100 text-stone-400 border-stone-200 cursor-not-allowed'
+                        : 'bg-white hover:bg-cream-50 text-brown-900 border-line active:translate-y-[1px]'
+                    }`}
                   >
                     <span>Or Fill Delivery Address on Website</span>
                     <ArrowRight size={13} strokeWidth={2} />

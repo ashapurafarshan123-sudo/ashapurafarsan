@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 export const PlaceOrder: React.FC = () => {
-  const { items, subtotal, discountAmount, finalTotal, globalDiscount, formatPrice, clearCart } = useCart();
+  const { items, subtotal, discountAmount, finalTotal, globalDiscount, formatPrice, clearCart, hasOutOfStockItems } = useCart();
   const { user, profile } = useAuth();
   const { contact } = useStoreSettings();
 
@@ -96,6 +96,11 @@ export const PlaceOrder: React.FC = () => {
 
     if (items.length === 0) {
       alert('Your cart is empty. Please add items before ordering.');
+      return;
+    }
+
+    if (hasOutOfStockItems || items.some((i) => i.product.isActive === false)) {
+      alert('One or more items in your cart is currently Out of Stock. Please remove them before placing your order.');
       return;
     }
 
@@ -449,11 +454,16 @@ export const PlaceOrder: React.FC = () => {
                   </div>
 
                   {/* Primary Submit Button */}
-                  <div className="pt-3">
+                  <div className="pt-3 space-y-2">
+                    {hasOutOfStockItems && (
+                      <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-medium">
+                        Your cart contains items that are currently Out of Stock. Please remove them before placing your order.
+                      </div>
+                    )}
                     <button
                       type="submit"
-                      disabled={isSubmitting}
-                      className="w-full h-12 bg-orange-600 hover:bg-orange-700 disabled:opacity-60 text-white font-bold text-sm rounded-full shadow-cta flex items-center justify-center gap-2.5 transition-all active:translate-y-[1px]"
+                      disabled={isSubmitting || hasOutOfStockItems}
+                      className="w-full h-12 bg-orange-600 hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-sm rounded-full shadow-cta flex items-center justify-center gap-2.5 transition-all active:translate-y-[1px]"
                     >
                       {isSubmitting ? (
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -490,7 +500,14 @@ export const PlaceOrder: React.FC = () => {
                   {items.map((item) => (
                     <div key={item.id} className="flex justify-between items-start text-xs pb-2 border-b border-line/40">
                       <div>
-                        <p className="font-bold text-brown-900">{item.product.name}</p>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <p className="font-bold text-brown-900">{item.product.name}</p>
+                          {item.product.isActive === false && (
+                            <span className="text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-1.5 py-0.2 rounded">
+                              Out of Stock
+                            </span>
+                          )}
+                        </div>
                         <p className="text-brown-500 mt-0.5">
                           {item.weight} x {item.quantity} qty
                         </p>

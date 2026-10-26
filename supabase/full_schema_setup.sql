@@ -889,9 +889,11 @@ CREATE POLICY "Admins can delete categories"
 
 -- 6. PRODUCTS POLICIES
 DROP POLICY IF EXISTS "Public can view active products or admin can view all" ON public.products;
-CREATE POLICY "Public can view active products or admin can view all"
+DROP POLICY IF EXISTS "Public can view products" ON public.products;
+DROP POLICY IF EXISTS "Public can view all products or admin view all" ON public.products;
+CREATE POLICY "Public can view all products or admin view all"
     ON public.products FOR SELECT
-    USING (is_active = TRUE OR public.is_admin(auth.uid()));
+    USING (true);
 
 DROP POLICY IF EXISTS "Admins can insert products" ON public.products;
 CREATE POLICY "Admins can insert products"
@@ -911,9 +913,11 @@ CREATE POLICY "Admins can delete products"
 
 -- 7. PRODUCT_VARIANTS POLICIES
 DROP POLICY IF EXISTS "Public can view active variants or admin can view all" ON public.product_variants;
-CREATE POLICY "Public can view active variants or admin can view all"
+DROP POLICY IF EXISTS "Public can view variants" ON public.product_variants;
+DROP POLICY IF EXISTS "Public can view all variants or admin view all" ON public.product_variants;
+CREATE POLICY "Public can view all variants or admin view all"
     ON public.product_variants FOR SELECT
-    USING (is_active = TRUE OR public.is_admin(auth.uid()));
+    USING (true);
 
 DROP POLICY IF EXISTS "Admins can insert variants" ON public.product_variants;
 CREATE POLICY "Admins can insert variants"
