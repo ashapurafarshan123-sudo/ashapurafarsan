@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { productService, AdminProductPayload } from '../../services/productService';
 import { Product } from '../../types';
-import { CATEGORIES } from '../../data/categories';
+import { CATEGORIES, ALL_CATEGORIES } from '../../data/categories';
 import {
   Plus,
   Search,
@@ -534,7 +534,7 @@ export const AdminProducts: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, categorySlug: e.target.value })}
                     className="w-full px-3 py-2 bg-cream-50/50 border border-line rounded-lg text-brown-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 font-medium"
                   >
-                    {CATEGORIES.map((c) => (
+                    {ALL_CATEGORIES.map((c) => (
                       <option key={c.slug} value={c.slug}>
                         {c.title}
                       </option>

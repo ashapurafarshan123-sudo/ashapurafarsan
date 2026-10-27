@@ -1,6 +1,6 @@
 import { Category } from '../types';
 
-export const CATEGORIES: Category[] = [
+export const ALL_CATEGORIES: Category[] = [
   {
     slug: 'namkeen',
     title: 'Namkeen',
@@ -123,3 +123,8 @@ export const CATEGORIES: Category[] = [
     iconType: 'cake',
   },
 ];
+
+// Active categories displayed in store categories sections (excluding 'maida' and 'cakes')
+export const CATEGORIES: Category[] = ALL_CATEGORIES.filter(
+  (c) => c.slug !== 'maida' && c.slug !== 'cakes'
+);

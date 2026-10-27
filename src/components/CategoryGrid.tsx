@@ -8,6 +8,11 @@ export const CategoryGrid: React.FC = () => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
+  // Exclude Maida and Cakes from the homepage "Shop by Categories" carousel
+  const categories = CATEGORIES.filter(
+    (category) => category.slug !== 'maida' && category.slug !== 'cakes'
+  );
+
   const checkScroll = () => {
     if (scrollRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
@@ -73,7 +78,7 @@ export const CategoryGrid: React.FC = () => {
           WebkitOverflowScrolling: 'touch',
         }}
       >
-        {CATEGORIES.map((category) => (
+        {categories.map((category) => (
           <div key={category.slug} className="snap-start flex-shrink-0">
             <CategoryCard category={category} />
           </div>

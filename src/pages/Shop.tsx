@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { CATEGORIES } from '../data/categories';
+import { CATEGORIES, ALL_CATEGORIES } from '../data/categories';
 import { PRODUCTS as STATIC_PRODUCTS } from '../data/products';
 import { productService } from '../services/productService';
 import { Product } from '../types';
@@ -51,7 +51,7 @@ export const Shop: React.FC = () => {
     setSearchParams({});
   };
 
-  const activeCategoryObj = CATEGORIES.find((c) => c.slug === currentCategory);
+  const activeCategoryObj = ALL_CATEGORIES.find((c) => c.slug === currentCategory);
 
   return (
     <>
