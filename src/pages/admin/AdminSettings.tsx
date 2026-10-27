@@ -280,7 +280,7 @@ export const AdminSettings: React.FC = () => {
                     },
                   })
                 }
-                placeholder="801058 0082"
+                placeholder="+91 79 7733 8814"
                 className="w-full h-9 px-3 bg-cream-50/50 border border-line rounded-lg text-brown-900 focus:outline-none focus:border-orange-500"
               />
             </div>
@@ -304,7 +304,7 @@ export const AdminSettings: React.FC = () => {
                     },
                   })
                 }
-                placeholder="919772331014"
+                placeholder="917977338814"
                 className="w-full h-9 px-3 bg-cream-50/50 border border-line rounded-lg text-brown-900 focus:outline-none focus:border-orange-500"
               />
               <p className="text-[10px] text-brown-400 mt-1">Format: 91XXXXXXXXXX (without + symbol)</p>
