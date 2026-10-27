@@ -122,7 +122,7 @@ export const StoreSettingsProvider: React.FC<{ children: React.ReactNode }> = ({
           address,
           full_address: address.includes('Mumbai') ? address : `${address}, Mumbai, Maharashtra 401107`,
           hours,
-          google_maps_url: SHOP_CONFIG.googleMapsUrl,
+          google_maps_url: raw.contact?.google_maps_url || (address.includes('Jangid') ? 'https://maps.google.com/?q=Shop+No+7+Jangid+Home+Near+Hetal+Park+Mira+Road' : SHOP_CONFIG.googleMapsUrl),
         },
         operational: {
           announcement: raw.operational?.announcement ?? 'Fresh farsan prepared daily in pure groundnut oil!',

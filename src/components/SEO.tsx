@@ -12,7 +12,7 @@ interface SEOProps {
 
 export const SEO: React.FC<SEOProps> = ({
   title = "Ashapura Farsan - Authentic Gujarati Farsan, Namkeen & Wafers in Mira Road",
-  description = "Authentic Gujarati farsan, namkeen, wafers, and festive snacks in Mira Road, Mumbai. Fresh every day, made in-house with traditional recipes. Shop No 15, Shantipark.",
+  description = "Authentic Gujarati farsan, namkeen, wafers, and festive snacks in Mira Road, Mumbai. Fresh every day, made in-house with traditional recipes. Shop No 7, Jangid Home, Near Hetal Park.",
   canonical,
   ogImage = "/images/hero-farsan.webp",
 }) => {
@@ -27,7 +27,7 @@ export const SEO: React.FC<SEOProps> = ({
     "telephone": [contact.phone_primary_raw, contact.phone_secondary_raw || contact.phone_primary_raw],
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Shop No 15, Shantipark",
+      "streetAddress": contact.address || "Shop No 7, Jangid Home, Near Hetal Park",
       "addressLocality": "Mira Road",
       "addressRegion": "Maharashtra",
       "postalCode": "401107",

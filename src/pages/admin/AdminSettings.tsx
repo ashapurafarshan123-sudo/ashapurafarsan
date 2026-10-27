@@ -330,7 +330,7 @@ export const AdminSettings: React.FC = () => {
                   },
                 })
               }
-              placeholder="Shop No 15, Shantipark, Mira Road, Mumbai - 401107"
+              placeholder="Shop No 7, Jangid Home, Near Hetal Park, Mira Road, Mumbai - 401107"
               className="w-full h-9 px-3 bg-cream-50/50 border border-line rounded-lg text-brown-900 focus:outline-none focus:border-orange-500"
             />
           </div>

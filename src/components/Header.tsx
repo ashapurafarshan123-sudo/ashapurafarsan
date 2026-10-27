@@ -5,11 +5,13 @@ import { Logo } from './Logo';
 import { SearchBar } from './SearchBar';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const Header: React.FC = () => {
   const { totalItems, openDrawer } = useCart();
   const { user, profile, isAdmin } = useAuth();
+  const { contact } = useStoreSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -254,8 +256,8 @@ export const Header: React.FC = () => {
 
               <div className="pt-2 text-xs text-brown-500 font-sans">
                 <p className="font-semibold text-brown-900">Ashapura Farsan</p>
-                <p>Shop No 15, Shantipark, Mira Road</p>
-                <p className="mt-1">Call / WhatsApp: +91 79 7733 8814</p>
+                <p>{contact.address}</p>
+                <p className="mt-1">Call / WhatsApp: {contact.phone_primary}</p>
               </div>
             </motion.div>
           )}

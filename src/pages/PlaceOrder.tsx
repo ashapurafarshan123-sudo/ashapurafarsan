@@ -395,7 +395,7 @@ export const PlaceOrder: React.FC = () => {
                             : 'bg-cream-50 text-brown-700 border-line hover:border-orange-500/50'
                         }`}
                       >
-                        Shop Pickup (Shantipark)
+                        Shop Pickup (Store Counter)
                       </button>
                     </div>
                   </div>
@@ -412,7 +412,7 @@ export const PlaceOrder: React.FC = () => {
                         onChange={(e) =>
                           setFormData({ ...formData, address: e.target.value })
                         }
-                        placeholder="Flat no, Building, Street, Landmark, Shantipark / Mira Road"
+                        placeholder="Flat no, Building, Street, Landmark, Mira Road"
                         className="w-full p-3 text-xs text-brown-900 bg-cream-50 border border-line rounded-lg focus:outline-none focus:border-orange-600 focus:bg-white transition-colors"
                       />
                       {errors.address && (

@@ -148,6 +148,7 @@ export interface StoreSettings {
     whatsapp_number: string;
     address: string;
     hours: string;
+    google_maps_url?: string;
   };
   operational?: {
     is_store_open: boolean;

@@ -359,7 +359,7 @@ export const adminService = {
         contact: {
           phone_primary: '+91 79 7733 8814',
           whatsapp_number: '917977338814',
-          address: 'Shop No 15, Shantipark, Mira Road, Mumbai - 401107',
+          address: 'Shop No 7, Jangid Home, Near Hetal Park, Mira Road, Mumbai - 401107',
           hours: 'Open Daily: 8:00 AM - 10:30 PM',
         },
         operational: {

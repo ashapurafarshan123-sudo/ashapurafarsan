@@ -18,7 +18,7 @@ export const FAQ: React.FC = () => {
     {
       question: "Which areas do you deliver to in Mira Road and beyond?",
       // TODO(owner): confirm delivery radius and pin codes
-      answer: "We provide home delivery across Shantipark and most areas of Mira Road (East and West). For deliveries in Bhayandar or nearby suburbs, please connect with us directly on WhatsApp to confirm delivery partner availability.",
+      answer: "We provide home delivery across most areas of Mira Road (East and West). For deliveries in Bhayandar or nearby suburbs, please connect with us directly on WhatsApp to confirm delivery partner availability.",
       ownerComment: "// TODO(owner): confirm delivery radius and pin codes",
     },
     {
@@ -48,7 +48,7 @@ export const FAQ: React.FC = () => {
     {
       question: "What are your shop operational timings?",
       // TODO(owner): confirm special holiday hours
-      answer: "Our shop at Shop No 15, Shantipark, Mira Road is open daily from 10:00 AM to 10:00 PM, 365 days a year, including Sundays and public holidays.",
+      answer: "Our shop at Shop No 7, Jangid Home, Near Hetal Park, Mira Road is open daily from 8:00 AM to 10:30 PM, 365 days a year, including Sundays and public holidays.",
       ownerComment: "// TODO(owner): confirm special holiday hours",
     },
   ];

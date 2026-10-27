@@ -26,7 +26,7 @@ export const Home: React.FC = () => {
     <>
       <SEO
         title="Ashapura Farsan - Authentic Gujarati Farsan, Namkeen & Wafers in Mira Road"
-        description="Authentic Gujarati farsan, namkeen, wafers, and festive sweets in Mira Road, Mumbai. Fresh every day, made in-house with traditional recipes. Shop No 15, Shantipark."
+        description="Authentic Gujarati farsan, namkeen, wafers, and festive sweets in Mira Road, Mumbai. Fresh every day, made in-house with traditional recipes. Shop No 7, Jangid Home, Near Hetal Park."
       />
 
       {/* Above-the-fold Hero (Combined with Header fits inside viewport) */}

@@ -21,7 +21,7 @@ export const Contact: React.FC = () => {
             eyebrow="GET IN TOUCH"
             titleRegular="Store Location &"
             titleItalic="Contact"
-            subtitle="Drop by our counter in Shantipark or reach out directly for delivery and bulk festival inquiries."
+            subtitle="Drop by our counter near Hetal Park or reach out directly for delivery and bulk festival inquiries."
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
@@ -119,17 +119,17 @@ export const Contact: React.FC = () => {
             <div className="bg-cream-100 border border-line rounded-card p-6 sm:p-8 shadow-card flex flex-col justify-between">
               <div>
                 <h3 className="font-serif font-semibold text-brown-900 text-lg border-b border-line pb-3 mb-4">
-                  Visit Shantipark, Mira Road
+                  Visit Us in Mira Road
                 </h3>
                 <p className="text-xs text-brown-700 leading-relaxed mb-4">
-                  Ashapura Farsan is conveniently situated right in the heart of Shantipark, Mira Road. Easy to reach from Mira Road railway station, with quick street access and dedicated counter pickup.
+                  Ashapura Farsan is conveniently situated at Shop No 7, Jangid Home, near Hetal Park, Mira Road. Easy to reach from Mira Road railway station, with quick street access and dedicated counter pickup.
                 </p>
 
                 <div className="bg-white p-4 rounded-lg border border-line space-y-2 mb-4 text-xs text-brown-700">
                   <p className="font-bold text-brown-900">Landmarks nearby:</p>
                   <ul className="list-disc pl-4 space-y-1 text-brown-600">
-                    <li>Near Shantipark main market circle</li>
-                    <li>5-7 minutes auto ride from Mira Road Railway Station (East)</li>
+                    <li>Near Hetal Park</li>
+                    <li>5-7 minutes auto ride from Mira Road Railway Station</li>
                     <li>Ample parking space for quick parcel pickups</li>
                   </ul>
                 </div>

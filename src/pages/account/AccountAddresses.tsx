@@ -238,7 +238,7 @@ export const AccountAddresses: React.FC = () => {
                     type="text"
                     value={formData.landmark}
                     onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
-                    placeholder="Near Shantipark"
+                    placeholder="Near Hetal Park / Mira Road"
                     className="w-full h-9 px-3 bg-cream-50 border border-line rounded-lg focus:outline-none focus:border-orange-600"
                   />
                 </div>

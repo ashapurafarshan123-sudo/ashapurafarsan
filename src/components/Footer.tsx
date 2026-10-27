@@ -31,7 +31,7 @@ export const Footer: React.FC = () => {
 
             <p className="text-xs text-[#D9BFA0] leading-relaxed max-w-sm">
               Bringing authentic taste and timeless recipes of Gujarati farsan,
-              namkeen, wafers and festive specials to Shantipark, Mira Road. Made
+              namkeen, wafers and festive specials to Mira Road, Mumbai. Made
               fresh in-house with purity and devotion.
             </p>
 
@@ -177,7 +177,7 @@ export const Footer: React.FC = () => {
             © {new Date().getFullYear()} {SHOP_CONFIG.name} Farsan. All rights reserved.
           </p>
           <p className="text-center sm:text-right">
-            Handcrafted with devotion in Shantipark, Mira Road, Mumbai.
+            Handcrafted with devotion in Mira Road, Mumbai.
           </p>
         </div>
       </div>

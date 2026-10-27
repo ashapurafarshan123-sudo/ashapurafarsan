@@ -11,7 +11,7 @@ export const About: React.FC = () => {
     <>
       <SEO
         title="About Us - Ashapura Farsan, Mira Road"
-        description="Discover the heritage of Ashapura Farsan in Shantipark, Mira Road. Handcrafted Gujarati farsan, pure ingredients, traditional recipes, and authentic taste since day one."
+        description="Discover the heritage of Ashapura Farsan in Mira Road. Handcrafted Gujarati farsan, pure ingredients, traditional recipes, and authentic taste since day one."
       />
 
       <div className="bg-cream-50 min-h-screen py-10 sm:py-16">
@@ -83,7 +83,7 @@ export const About: React.FC = () => {
             <div className="pt-6 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
                 <p className="font-serif font-semibold text-brown-900">
-                  Visit us at Shantipark, Mira Road
+                  Visit us at Shop No 7, Jangid Home, Mira Road
                 </p>
                 <p className="text-xs text-brown-500">
                   Warm hospitality and fresh tasting samples always await you.
